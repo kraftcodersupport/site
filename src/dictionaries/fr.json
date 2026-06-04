@@ -1,0 +1,28 @@
+{
+    "common": {
+        "getStarted": "Démarrer",
+        "contactUs": "Contactez-nous",
+        "learnMore": "En savoir plus",
+        "viewAll": "Tout voir"
+    },
+    "nav": {
+        "about": "À propos",
+        "services": "Services",
+        "solutions": "Solutions",
+        "team": "Équipe",
+        "howItWorks": "Processus",
+        "blog": "Blog",
+        "contact": "Contact",
+        "industries": "Industries",
+        "resources": "Ressources",
+        "caseStudies": "Études de cas"
+    },
+    "hero": {
+        "tagline": "Aider les organisations à transformer l'IA en résultats commerciaux mesurables.",
+        "cta": "Nos Services"
+    },
+    "footer": {
+        "rights": "Tous droits réservés.",
+        "tagline": "Stratégie IA Premium et Exécution Technique."
+    }
+}

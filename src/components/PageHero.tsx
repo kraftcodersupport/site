@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
 
 interface PageHeroProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
-  description: string;
+  subtitle: string;
   primaryHref?: string;
   primaryLabel?: string;
   secondaryHref?: string;
@@ -14,7 +14,7 @@ interface PageHeroProps {
 export default function PageHero({
   eyebrow,
   title,
-  description,
+  subtitle,
   primaryHref,
   primaryLabel,
   secondaryHref,
@@ -44,7 +44,7 @@ export default function PageHero({
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-muted-soft lg:text-xl">
-            {description}
+            {subtitle}
           </p>
 
           {(primaryHref || secondaryHref) && (

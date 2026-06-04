@@ -1,138 +1,125 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Phone, Sparkles, Globe, Share2, Cpu } from "lucide-react";
+import {
+  ExternalLink,
+  Send,
+  AtSign,
+  MapPin,
+  Mail,
+  Globe
+} from "lucide-react";
 import { brand, NAV_ITEMS } from "@/lib/niches";
 
-const footerColumns = [
-  {
-    title: "Intelligence",
-    items: [
-      { href: "/services", label: "Consulting Model" },
-      { href: "/solutions", label: "Enterprise Solutions" },
-      { href: "/solutions/rag-systems", label: "RAG Architectures" },
-      { href: "/solutions/ai-agent-development", label: "Agentic Systems" },
-    ],
-  },
-  {
-    title: "Company",
-    items: [
-      { href: "/about", label: "About Strategy" },
-      { href: "/case-studies", label: "Impact Records" },
-      { href: "/blog", label: "Executive Insights" },
-      { href: "/contact", label: "Partner Relations" },
-    ],
-  },
-  {
-    title: "Resources",
-    items: [
-      { href: "/resources", label: "Readiness Checklists" },
-      { href: "/resources", label: "Governance Kits" },
-      { href: "/resources", label: "Evaluation Frameworks" },
-    ],
-  },
-];
+export default function Footer({ locale, dict }: { locale: string; dict: any }) {
+  const currentYear = new Date().getFullYear();
 
-export default function Footer() {
   return (
-    <footer className="relative z-10 border-t border-white/5 bg-background pt-24 pb-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-[1.2fr_1fr]">
-          <div className="space-y-10">
-            <Link href="/" className="inline-flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-accent shadow-2xl shadow-primary/20">
-                <Sparkles className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <span className="text-2xl font-black tracking-tight text-white">
-                  {brand.name.split(' ')[0]}<span className="text-accent">{brand.name.split(' ')[1]}</span>
-                </span>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-soft">
-                  Global AI Delivery
-                </p>
-              </div>
-            </Link>
+    <footer className="relative bg-background pt-48 pb-12 overflow-hidden border-t border-white/5 mt-10 rounded-t-[32px]">
+      {/* Large branding text that overlaps the footer card (70% top, 30% behind) */}
+      <div className="absolute top-0 left-0 w-full flex justify-center z-0 pt-10 px-4">
+        <div className="footer-branding-text w-full text-center">
+          {brand.name}
+        </div>
+      </div>
 
-            <div className="max-w-md space-y-6">
-              <h2 className="font-editorial text-2xl italic tracking-tight text-white/90">
-                "Turning broad curiosity into disciplined AI portfolios."
-              </h2>
-              <p className="text-sm leading-7 text-muted-soft">
-                We empower leadership teams to design, build, and scale AI programs that create measurable business outcomes, not just experimentation theater.
+      {/* World map dots background (Highlighted for dark theme) */}
+      <div className="absolute inset-0 world-map-bg z-0 mix-blend-screen" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Footer Main Card - Positioned relative to overlap the text */}
+        <div className="bg-[#0B0F1A] rounded-[48px] p-10 sm:p-16 border border-white/10 shadow-2xl shadow-black relative overflow-hidden mb-16 mt-20">
+          <div className="absolute inset-0 bg-linear-to-br from-primary/10 to-accent/5 opacity-50 backdrop-blur-xl" />
+
+          <div className="relative z-10 grid gap-16 lg:grid-cols-2">
+            <div>
+              <Link href="/" className="group flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white">
+                  <span className="text-xl font-black">A</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-2xl font-black tracking-tighter text-white">
+                    {brand.name.split(' ')[0]}<span className="text-primary">{brand.name.split(' ')[1] ? ` ${brand.name.split(' ')[1]}` : ''}</span>
+                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+                    Strategic AI Consulting
+                  </span>
+                </div>
+              </Link>
+              <p className="mt-8 max-w-sm text-base font-medium leading-relaxed text-slate-400">
+                {dict.footer.tagline}
               </p>
+
+              <div className="mt-10 flex items-center gap-4">
+                <a href="#" className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/70 transition-all hover:bg-primary hover:text-white hover:border-primary">
+                  <ExternalLink className="h-5 w-5" />
+                </a>
+                <a href="#" className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/70 transition-all hover:bg-primary hover:text-white hover:border-primary">
+                  <Send className="h-5 w-5" />
+                </a>
+                <a href="#" className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/70 transition-all hover:bg-primary hover:text-white hover:border-primary">
+                  <AtSign className="h-5 w-5" />
+                </a>
+              </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              {[Globe, Share2, Cpu].map((Icon, idx) => (
-                <Link
-                  key={idx}
-                  href="#"
-                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/5 bg-white/5 text-muted-soft transition-all hover:border-primary/50 hover:bg-primary/10 hover:text-white"
-                >
-                  <Icon className="h-5 w-5" />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-8 sm:grid-cols-3">
-            {footerColumns.map((column) => (
-              <div key={column.title} className="space-y-6">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">
-                  {column.title}
-                </h3>
+            <div className="grid gap-10 sm:grid-cols-2">
+              <div className="space-y-6">
+                <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                  Intelligence
+                </h4>
                 <ul className="space-y-4">
-                  {column.items.map((item) => (
+                  {[
+                    { label: dict.nav.services, href: `/${locale}/services` },
+                    { label: dict.nav.solutions, href: `/${locale}/solutions` },
+                    { label: dict.nav.team, href: `/${locale}/team` },
+                    { label: dict.nav.blog, href: `/${locale}/blog` },
+                  ].map((item) => (
                     <li key={item.label}>
-                      <Link
-                        href={item.href}
-                        className="text-sm font-medium text-muted-soft transition-colors hover:text-white"
-                      >
+                      <Link href={item.href} className="text-sm font-bold text-slate-400 transition-colors hover:text-primary">
                         {item.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-24 grid gap-8 border-t border-white/5 pt-12 lg:grid-cols-3">
-          <div className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/2 p-6 transition-all hover:bg-white/4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <Mail className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-soft">Inquiries</p>
-              <p className="text-sm font-bold text-white">{brand.email}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/2 p-6 transition-all hover:bg-white/4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
-              <Phone className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-soft">Support</p>
-              <p className="text-sm font-bold text-white">24/7 Monitored Delivery</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white/2 p-6 transition-all hover:bg-white/4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <MapPin className="h-6 w-6" />
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-soft">Presence</p>
-              <p className="text-sm font-bold text-white">Global Delivery Centers</p>
+              <div className="space-y-6">
+                <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                  Contact
+                </h4>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-2">
+                    <Mail className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <span className="text-sm font-bold text-slate-300 break-all">{brand.email}</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <MapPin className="h-5 w-5 text-primary mt-1 shrink-0" />
+                    <span className="text-sm font-bold text-slate-300 line-clamp-2 leading-relaxed">
+                      Innovation Hub, Tashkent, Uzbekistan
+                    </span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-8 sm:flex-row">
-          <p className="text-xs font-bold text-muted-soft">
-            &copy; {new Date().getFullYear()} {brand.name}. All strategic rights reserved.
+        {/* Bottom Bar */}
+        <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-12 sm:flex-row">
+          <p className="text-sm font-medium text-slate-400">
+            © {currentYear} {brand.name}. {dict.footer.rights}
           </p>
           <div className="flex items-center gap-8">
-            <Link href="#" className="text-xs font-bold text-muted-soft hover:text-white transition-colors">Privacy Charter</Link>
-            <Link href="#" className="text-xs font-bold text-muted-soft hover:text-white transition-colors">Service Terms</Link>
+            <Link href="/privacy" className="text-sm font-bold text-slate-400 hover:text-primary transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="text-sm font-bold text-slate-400 hover:text-primary transition-colors">
+              Terms of Service
+            </Link>
+            <button className="flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-primary transition-colors">
+              <Globe className="h-4 w-4" />
+              EN (US)
+            </button>
           </div>
         </div>
       </div>

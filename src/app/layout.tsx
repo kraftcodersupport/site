@@ -1,69 +1,32 @@
-import type { Metadata } from "next";
-import { Outfit, Inter, Playfair_Display } from "next/font/google";
-import "./globals.css";
+import { cookies } from "next/headers";
+import { getDictionary } from "@/lib/dictionaries";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { brand } from "@/lib/niches";
+import { Inter, Outfit } from "next/font/google";
+import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
-const bodyFont = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
-});
+export default async function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    const cookieStore = await cookies();
+    const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
+    const dict = await getDictionary(locale);
+    const isRtl = locale === "ar";
 
-const displayFont = Outfit({
-  subsets: ["latin"],
-  variable: "--font-display-family",
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const editorialFont = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-editorial-family",
-  weight: ["400", "500", "600", "700"],
-  style: ["italic", "normal"],
-});
-
-export const metadata: Metadata = {
-  title: {
-    default: `${brand.name} | Premium AI Consultancy`,
-    template: `%s | ${brand.name}`,
-  },
-  description: brand.tagline,
-  metadataBase: new URL(siteUrl),
-  applicationName: brand.name,
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: brand.name,
-    title: brand.name,
-    description: brand.tagline,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: brand.name,
-    description: brand.tagline,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" className={`${bodyFont.variable} ${displayFont.variable} ${editorialFont.variable} h-full antialiased`}>
-      <body className="min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-white">
-        <Navbar />
-        <main className="pt-20">{children}</main>
-        <Footer />
-      </body>
-    </html>
-  );
+    return (
+        <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={`${inter.variable} ${outfit.variable}`}>
+            <body className="bg-white text-black antialiased selection:bg-primary/30">
+                <Navbar locale={locale} dict={dict} />
+                <main className="pt-14">
+                    {children}
+                </main>
+                <Footer locale={locale} dict={dict} />
+            </body>
+        </html>
+    );
 }

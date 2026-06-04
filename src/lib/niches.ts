@@ -25,6 +25,8 @@ import {
   Boxes,
   Server,
   Users,
+  BrainCircuit,
+  Layers,
 } from "lucide-react";
 
 export interface NavItem {
@@ -94,10 +96,42 @@ export interface ResourceDefinition {
   icon: LucideIcon;
 }
 
+export interface TechItem {
+  name: string;
+  icon: LucideIcon;
+  category: "Frontend" | "AI" | "Cloud" | "Design" | "Software";
+}
+
+export interface TeamMember {
+  name: string;
+  role: string;
+  bio: string;
+  socials: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+  };
+}
+
+export interface Testimonial {
+  author: string;
+  role: string;
+  company: string;
+  quote: string;
+  rating: number;
+}
+
+export interface WhyItem {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}
+
 export const brand = {
-  name: "Kraft Coder",
+  name: "KraftCoder",
   tagline: "Helping Organizations Turn AI Into Measurable Business Outcomes.",
   email: "hello@kraftcoder.com",
+  partners: ["Vercel", "OpenAI", "Anthropic", "Google", "AWS", "Microsoft"],
 };
 
 export const NAV_ITEMS: NavItem[] = [
@@ -622,6 +656,105 @@ export const FAQS = [
     question: "Can you help with both strategy and implementation?",
     answer:
       "Absolutely. We often help clients define the roadmap and then build the systems, agents, or automations that follow.",
+  },
+];
+
+export const TECH_STACK: TechItem[] = [
+  { name: "Next.js", icon: Sparkles, category: "Frontend" },
+  { name: "React", icon: LayoutDashboard, category: "Frontend" },
+  { name: "Python", icon: Boxes, category: "AI" },
+  { name: "TensorFlow", icon: BrainCircuit, category: "AI" },
+  { name: "LangChain", icon: Workflow, category: "AI" },
+  { name: "OpenAI", icon: Bot, category: "AI" },
+  { name: "AWS", icon: Cloud, category: "Cloud" },
+  { name: "Docker", icon: Server, category: "Software" },
+  { name: "PostgreSQL", icon: Database, category: "Software" },
+  { name: "MongoDB", icon: Database, category: "Software" },
+  { name: "Kubernetes", icon: Server, category: "Cloud" },
+  { name: "Figma", icon: Layers, category: "Design" },
+];
+
+export const TEAM_MEMBERS: TeamMember[] = [
+  {
+    name: "Alex Thompson",
+    role: "Managing Partner",
+    bio: "Ex-Big 4 strategy lead with 15+ years experience in digital transformation.",
+    socials: { linkedin: "#", twitter: "#" },
+  },
+  {
+    name: "Sarah Chen",
+    role: "Head of AI Delivery",
+    bio: "Specializes in enterprise-scale RAG systems and autonomous agent orchestration.",
+    socials: { linkedin: "#", github: "#" },
+  },
+  {
+    name: "Michael Ross",
+    role: "Product Strategy",
+    bio: "Focuses on ROI modeling and roadmap prioritization for AI-first products.",
+    socials: { linkedin: "#" },
+  },
+  {
+    name: "Elena Petrov",
+    role: "Engineering Lead",
+    bio: "Full-stack architect with a background in secure cloud infrastructure.",
+    socials: { github: "#", linkedin: "#" },
+  },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    author: "James Wilson",
+    role: "CTO",
+    company: "FutureFlow SaaS",
+    quote: "KraftCoder transformed our broad AI goals into a disciplined roadmap that delivered real ROI in weeks.",
+    rating: 5,
+  },
+  {
+    author: "Emily Rodriguez",
+    role: "Director of Ops",
+    company: "Global Logistics Inc",
+    quote: "The team's focus on safety and governance gave us the confidence to launch our first internal agent.",
+    rating: 5,
+  },
+  {
+    author: "David Park",
+    role: "Founder",
+    company: "LaunchPad Tech",
+    quote: "The speed and technical depth they brought to our RAG project was game-changing for our startup.",
+    rating: 5,
+  },
+];
+
+export const WHY_CHOOSE_US: WhyItem[] = [
+  {
+    title: "Expert Team",
+    description: "Multi-disciplinary team of strategists, engineers, and data scientists.",
+    icon: Users,
+  },
+  {
+    title: "Proven Results",
+    description: "Track record of delivering measurable ROI for startups and enterprise.",
+    icon: BarChart3,
+  },
+  {
+    title: "24/7 Support",
+    description: "Governed monitoring and support for mission-critical AI systems.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Agile Delivery",
+    description: "Rapid iteration and deployment models for faster time-to-market.",
+    icon: Rocket,
+  },
+  {
+    title: "Security First",
+    description: "Enterprise-grade security controls and governance built-in from day one.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Transparent Pricing",
+    description: "Clear fixed-fee or retainer models with no hidden surprise costs.",
+    icon: Landmark,
   },
 ];
 

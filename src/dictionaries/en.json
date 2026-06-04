@@ -1,0 +1,28 @@
+{
+    "common": {
+        "getStarted": "Get Started",
+        "contactUs": "Contact Us",
+        "learnMore": "Learn More",
+        "viewAll": "View All"
+    },
+    "nav": {
+        "about": "About",
+        "services": "Services",
+        "solutions": "Solutions",
+        "team": "Team",
+        "howItWorks": "Process",
+        "blog": "Blog",
+        "contact": "Contact",
+        "industries": "Industries",
+        "resources": "Resources",
+        "caseStudies": "Case Studies"
+    },
+    "hero": {
+        "tagline": "Helping Organizations Turn AI Into Measurable Business Outcomes.",
+        "cta": "Our Services"
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "tagline": "Premium AI Strategy & Technical Execution."
+    }
+}

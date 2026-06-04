@@ -1,0 +1,28 @@
+{
+    "common": {
+        "getStarted": "Loslegen",
+        "contactUs": "Kontaktiere uns",
+        "learnMore": "Mehr erfahren",
+        "viewAll": "Alle ansehen"
+    },
+    "nav": {
+        "about": "Über uns",
+        "services": "Leistungen",
+        "solutions": "Lösungen",
+        "team": "Team",
+        "howItWorks": "Prozess",
+        "blog": "Blog",
+        "contact": "Kontakt",
+        "industries": "Branchen",
+        "resources": "Ressourcen",
+        "caseStudies": "Fallstudien"
+    },
+    "hero": {
+        "tagline": "Unternehmen dabei helfen, KI in messbare Geschäftsergebnisse zu verwandeln.",
+        "cta": "Unsere Leistungen"
+    },
+    "footer": {
+        "rights": "Alle Rechte vorbehalten.",
+        "tagline": "Premium-KI-Strategie und technische Ausführung."
+    }
+}

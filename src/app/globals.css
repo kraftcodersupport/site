@@ -2,11 +2,11 @@
 
 /* Tailwind 4 engine entry point */
 @theme {
-  /* Core Foundation - Deep Obsidian Theme */
-  --color-background: #050505;
+  /* Core Foundation - Deep Navy-Purple Theme */
+  --color-background: #06091A;
   --color-foreground: #ffffff;
 
-  --color-surface: #0a0a0a;
+  --color-surface: #0B0F1A;
   --color-surface-strong: #0d1117;
   --color-surface-soft: rgba(15, 23, 42, 0.4);
 
@@ -32,9 +32,9 @@
   --color-muted-soft: #94a3b8;
   --color-muted-light: #cbd5e1;
 
-  --font-sans: var(--font-body), "Inter", "Segoe UI", sans-serif;
-  --font-display: var(--font-display-family), var(--font-body), sans-serif;
-  --font-editorial: var(--font-editorial-family), serif;
+  --font-sans: var(--font-inter), "Inter", "Segoe UI", sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), sans-serif;
+  --font-editorial: var(--font-outfit), serif;
 }
 
 @layer base {
@@ -56,11 +56,9 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-color: var(--color-background);
-    /* High-contrast mesh background */
     background-image:
-      radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-      radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 40%),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Jacques fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='0.5' %3E%3Crect x='0' y='0' width='200' height='200' /%3E%3C/svg%3E");
+      radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 40%);
     background-attachment: fixed;
   }
 
@@ -132,6 +130,18 @@
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
   }
 
+  .hero-bottom-glow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 200px;
+    background: radial-gradient(ellipse at center bottom, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .gradient-text {
     background: linear-gradient(135deg, #fff 0%, var(--color-primary-soft) 40%, var(--color-accent) 100%);
     -webkit-background-clip: text;
@@ -151,8 +161,238 @@
   .letter-split:hover {
     transform: translateY(-2px);
   }
+
+  /* ══════════════════════════════════════════
+     NOTCHED TAB SYSTEM
+  ══════════════════════════════════════════ */
+  .tab-notched {
+    background-color: #fff;
+    position: relative;
+  }
+
+  /* Concave Corners - Top Right (hangs from top-right of parent notch) */
+  .concave-corner-tr {
+    position: absolute;
+    top: 0;
+    right: -16px;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .concave-corner-tr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 16px -16px 0 0 #fff;
+  }
+
+  /* Concave Corner - Top Left */
+  .concave-corner-tl {
+    position: absolute;
+    top: 0;
+    left: -16px;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .concave-corner-tl::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: -16px -16px 0 0 #fff;
+  }
+
+  /* Concave Corner - Bottom Right (for hero left card) */
+  .concave-corner-br {
+    position: absolute;
+    bottom: -16px;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .concave-corner-br::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 16px 16px 0 0 #fff;
+  }
+
+  /* Concave Corner - Card Top Right (left card, top-right inner) */
+  .concave-corner-card-tr {
+    position: absolute;
+    top: -16px;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .concave-corner-card-tr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 16px 16px 0 0 #fff;
+  }
+
+  /* Concave Corner - Bottom Left (for hero right card) */
+  .concave-corner-bl {
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .concave-corner-bl::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: -16px 16px 0 0 #fff;
+  }
+
+  /* Concave Corner - Card Top Left (right card, top-left inner) */
+  .concave-corner-card-tl {
+    position: absolute;
+    top: -16px;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .concave-corner-card-tl::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: -16px 16px 0 0 #fff;
+  }
+
+  /* ══════════════════════════════════════════
+     PARTICLE SPHERE (Hero background)
+  ══════════════════════════════════════════ */
+  .particle-sphere {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .particle-sphere-inner {
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.1) 70%, transparent 100%);
+    filter: blur(40px);
+    animation: pulseSphere 6s ease-in-out infinite;
+  }
+
+  .particle-ring {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    border-radius: 50%;
+    animation: rotateSlow 20s linear infinite;
+  }
+
+  .particle-ring-2 {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    border: 1px dashed rgba(6, 182, 212, 0.1);
+    border-radius: 50%;
+    animation: rotateSlow 15s linear infinite reverse;
+  }
+
+  .particle-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(139, 92, 246, 0.6), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(6, 182, 212, 0.6), transparent),
+      radial-gradient(1px 1px at 50% 10%, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 30% 80%, rgba(139, 92, 246, 0.4), transparent),
+      radial-gradient(1px 1px at 80% 20%, rgba(6, 182, 212, 0.4), transparent),
+      radial-gradient(1px 1px at 10% 60%, rgba(255, 255, 255, 0.3), transparent),
+      radial-gradient(1.5px 1.5px at 60% 40%, rgba(139, 92, 246, 0.5), transparent),
+      radial-gradient(1.5px 1.5px at 40% 70%, rgba(6, 182, 212, 0.5), transparent);
+    animation: rotateSlow 30s linear infinite;
+  }
+
+  /* ══════════════════════════════════════════
+     FEATURE CARD (Light theme)
+  ══════════════════════════════════════════ */
+  .feature-card-light {
+    background: white;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card-light:hover {
+    border-color: rgba(139, 92, 246, 0.2);
+    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.08);
+    transform: translateY(-2px);
+  }
 }
 
+/* ══════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+══════════════════════════════════════════ */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -172,6 +412,30 @@
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes pulseSphere {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
