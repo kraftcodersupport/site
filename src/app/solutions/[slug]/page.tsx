@@ -28,31 +28,31 @@ export default async function SolutionDetailPage({
                 subtitle={niche.shortDescription}
             />
 
-            <section className="py-24 sm:py-32 bg-white">
+            <section className="section-padding bg-background">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-20 lg:grid-cols-12">
+                    <div className="grid gap-16 lg:grid-cols-12">
                         <div className="lg:col-span-8">
-                            <div className="prose prose-slate prose-lg max-w-none">
-                                <h2 className="text-3xl font-black text-slate-900 sm:text-4xl">Overview</h2>
-                                <p className="mt-8 text-lg font-medium leading-relaxed text-slate-600">
+                            <div className="max-w-none">
+                                <h2 className="text-3xl font-bold text-white sm:text-4xl">Overview</h2>
+                                <p className="mt-8 text-lg font-medium leading-relaxed text-zinc-400">
                                     {niche.overview}
                                 </p>
 
-                                <h3 className="mt-16 text-2xl font-black text-slate-900">Key Outcomes</h3>
-                                <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                                <h3 className="mt-14 text-2xl font-bold text-white">Key Outcomes</h3>
+                                <div className="mt-6 grid gap-4 sm:grid-cols-2">
                                     {niche.outcomes.map((outcome) => (
-                                        <div key={outcome} className="flex items-start gap-4 p-6 rounded-3xl bg-slate-50 border border-slate-100">
-                                            <CheckCircle2 className="h-6 w-6 text-primary shrink-0" />
-                                            <p className="text-sm font-bold text-slate-700 leading-relaxed">{outcome}</p>
+                                        <div key={outcome} className="flex items-start gap-3 p-5 rounded-2xl card-dark">
+                                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                                            <p className="text-sm font-medium text-zinc-300 leading-relaxed">{outcome}</p>
                                         </div>
                                     ))}
                                 </div>
 
-                                <h3 className="mt-16 text-2xl font-black text-slate-900">Deliverables</h3>
-                                <ul className="mt-8 grid gap-4">
+                                <h3 className="mt-14 text-2xl font-bold text-white">Deliverables</h3>
+                                <ul className="mt-6 grid gap-3">
                                     {niche.deliverables.map((item) => (
-                                        <li key={item} className="flex items-center gap-4 text-slate-600 font-medium">
-                                            <div className="h-2 w-2 rounded-full bg-primary/40" />
+                                        <li key={item} className="flex items-center gap-3 text-zinc-400 font-medium">
+                                            <div className="h-1.5 w-1.5 rounded-full bg-primary/50" />
                                             {item}
                                         </li>
                                     ))}
@@ -61,24 +61,24 @@ export default async function SolutionDetailPage({
                         </div>
 
                         <aside className="lg:col-span-4">
-                            <div className="sticky top-32 space-y-8">
-                                <div className="rounded-[40px] bg-background p-10 border border-white/5 shadow-2xl relative overflow-hidden">
+                            <div className="sticky top-32 space-y-6">
+                                <div className="glass rounded-2xl p-8 relative overflow-hidden">
                                     <div className="absolute inset-0 surface-grid opacity-10" />
-                                    <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-white mb-8">
-                                        <niche.icon className="h-7 w-7" />
+                                    <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white mb-6">
+                                        <niche.icon className="h-6 w-6" />
                                     </div>
-                                    <h3 className="relative z-10 text-xl font-black text-white mb-4">Strategic Metric</h3>
-                                    <div className="relative z-10 text-3xl font-black text-primary mb-10">{niche.metric}</div>
+                                    <h3 className="relative z-10 text-lg font-bold text-white mb-3">Strategic Metric</h3>
+                                    <div className="relative z-10 text-2xl font-bold text-primary-light mb-8">{niche.metric}</div>
 
-                                    <div className="relative z-10 pt-8 border-t border-white/10">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Best For</span>
-                                        <p className="mt-3 text-sm font-bold text-white/80 leading-relaxed">{niche.bestFor}</p>
+                                    <div className="relative z-10 pt-6 border-t border-white/[0.06]">
+                                        <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Best For</span>
+                                        <p className="mt-2 text-sm font-medium text-zinc-400 leading-relaxed">{niche.bestFor}</p>
                                     </div>
                                 </div>
 
                                 <Link
                                     href="/contact"
-                                    className="group flex items-center justify-center gap-3 rounded-full bg-slate-900 py-6 text-sm font-black text-white transition-all hover:bg-primary shadow-xl"
+                                    className="group flex items-center justify-center gap-3 rounded-full bg-primary py-5 text-sm font-semibold text-white transition-all hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(99,102,241,0.3)]"
                                 >
                                     Initiate Project <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                                 </Link>

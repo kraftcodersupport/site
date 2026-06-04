@@ -2,11 +2,12 @@ import { cookies } from "next/headers";
 import { getDictionary } from "@/lib/dictionaries";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Inter, Outfit } from "next/font/google";
+import Chatbot from "@/components/Chatbot";
+import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
+const sora = Sora({ subsets: ["latin"], variable: "--font-sora" });
 
 export default async function RootLayout({
     children,
@@ -19,13 +20,14 @@ export default async function RootLayout({
     const isRtl = locale === "ar";
 
     return (
-        <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={`${inter.variable} ${outfit.variable}`}>
-            <body className="bg-white text-black antialiased selection:bg-primary/30">
+        <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={`${jakarta.variable} ${sora.variable}`}>
+            <body className="antialiased">
                 <Navbar locale={locale} dict={dict} />
-                <main className="pt-14">
+                <main className="pt-16">
                     {children}
                 </main>
                 <Footer locale={locale} dict={dict} />
+                <Chatbot />
             </body>
         </html>
     );

@@ -138,21 +138,21 @@ export default function RiskCostCalculator() {
                 {/* ─── Input Panel ─── */}
                 <div className="glass rounded-2xl p-8 space-y-8">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-bg">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
                             <Calculator className="h-5 w-5 text-white" />
                         </div>
                         <div>
-                            <h3 className="font-semibold">Organization Profile</h3>
-                            <p className="text-xs text-muted">Configure your parameters</p>
+                            <h3 className="font-semibold text-white">Organization Profile</h3>
+                            <p className="text-xs text-zinc-500">Configure your parameters</p>
                         </div>
                     </div>
 
                     {/* Company Size */}
                     <div>
-                        <label className="flex items-center gap-2 text-sm font-medium mb-3">
+                        <label className="flex items-center gap-2 text-sm font-medium text-zinc-300 mb-3">
                             <Building2 className="h-4 w-4 text-primary-light" />
                             Company Size
-                            <span className="ml-auto text-primary-light font-bold">
+                            <span className="ml-auto text-primary-light font-semibold">
                                 {inputs.companySize.toLocaleString()} employees
                             </span>
                         </label>
@@ -167,9 +167,9 @@ export default function RiskCostCalculator() {
                                     companySize: Number(e.target.value),
                                 }))
                             }
-                            className="w-full h-2 rounded-full appearance-none bg-card-border cursor-pointer accent-primary"
+                            className="w-full h-2 rounded-full appearance-none bg-zinc-800 cursor-pointer accent-primary"
                         />
-                        <div className="flex justify-between text-xs text-muted mt-1">
+                        <div className="flex justify-between text-xs text-zinc-600 mt-1">
                             <span>1</span>
                             <span>1,000+</span>
                         </div>
@@ -177,10 +177,10 @@ export default function RiskCostCalculator() {
 
                     {/* AI Usage Intensity */}
                     <div>
-                        <label className="flex items-center gap-2 text-sm font-medium mb-3">
+                        <label className="flex items-center gap-2 text-sm font-medium text-zinc-300 mb-3">
                             <Brain className="h-4 w-4 text-primary-light" />
                             AI Usage Intensity
-                            <span className="ml-auto text-primary-light font-bold">
+                            <span className="ml-auto text-primary-light font-semibold">
                                 {inputs.aiUsageIntensity}/10
                             </span>
                         </label>
@@ -195,9 +195,9 @@ export default function RiskCostCalculator() {
                                     aiUsageIntensity: Number(e.target.value),
                                 }))
                             }
-                            className="w-full h-2 rounded-full appearance-none bg-card-border cursor-pointer accent-primary"
+                            className="w-full h-2 rounded-full appearance-none bg-zinc-800 cursor-pointer accent-primary"
                         />
-                        <div className="flex justify-between text-xs text-muted mt-1">
+                        <div className="flex justify-between text-xs text-zinc-600 mt-1">
                             <span>Minimal</span>
                             <span>Mission-Critical</span>
                         </div>
@@ -205,7 +205,7 @@ export default function RiskCostCalculator() {
 
                     {/* Industry Vertical */}
                     <div>
-                        <label className="flex items-center gap-2 text-sm font-medium mb-3">
+                        <label className="flex items-center gap-2 text-sm font-medium text-zinc-300 mb-3">
                             <ShieldAlert className="h-4 w-4 text-primary-light" />
                             Industry Vertical
                         </label>
@@ -220,8 +220,8 @@ export default function RiskCostCalculator() {
                                         }))
                                     }
                                     className={`px-3 py-2.5 rounded-lg text-xs font-medium transition-all ${inputs.industryVertical === opt.value
-                                            ? "gradient-bg text-white shadow-lg shadow-primary/20"
-                                            : "glass glass-hover text-muted-light"
+                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                        : "bg-zinc-800/60 border border-zinc-700/50 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300"
                                         }`}
                                 >
                                     {opt.label}
@@ -232,7 +232,7 @@ export default function RiskCostCalculator() {
 
                     {/* Data Sensitivity */}
                     <div>
-                        <label className="flex items-center gap-2 text-sm font-medium mb-3">
+                        <label className="flex items-center gap-2 text-sm font-medium text-zinc-300 mb-3">
                             <Database className="h-4 w-4 text-primary-light" />
                             Data Sensitivity Level
                         </label>
@@ -247,15 +247,15 @@ export default function RiskCostCalculator() {
                                         }))
                                     }
                                     className={`px-3 py-2.5 rounded-lg text-left transition-all ${inputs.dataSensitivity === opt.value
-                                            ? "gradient-bg text-white shadow-lg shadow-primary/20"
-                                            : "glass glass-hover"
+                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                        : "bg-zinc-800/60 border border-zinc-700/50 hover:bg-zinc-800"
                                         }`}
                                 >
-                                    <div className="text-xs font-medium">{opt.label}</div>
+                                    <div className={`text-xs font-medium ${inputs.dataSensitivity === opt.value ? "text-white" : "text-zinc-300"}`}>{opt.label}</div>
                                     <div
                                         className={`text-[10px] mt-0.5 ${inputs.dataSensitivity === opt.value
-                                                ? "text-white/70"
-                                                : "text-muted"
+                                            ? "text-white/70"
+                                            : "text-zinc-600"
                                             }`}
                                     >
                                         {opt.desc}
@@ -267,7 +267,7 @@ export default function RiskCostCalculator() {
 
                     <button
                         onClick={handleCalculate}
-                        className="w-full py-3.5 rounded-xl gradient-bg text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+                        className="w-full py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30"
                     >
                         Calculate Risk &amp; Cost
                     </button>
@@ -276,20 +276,20 @@ export default function RiskCostCalculator() {
                 {/* ─── Results Panel ─── */}
                 <div className="glass rounded-2xl p-8 flex flex-col">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-bg">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
                             <TrendingUp className="h-5 w-5 text-white" />
                         </div>
                         <div>
-                            <h3 className="font-semibold">Assessment Results</h3>
-                            <p className="text-xs text-muted">Your compliance profile</p>
+                            <h3 className="font-semibold text-white">Assessment Results</h3>
+                            <p className="text-xs text-zinc-500">Your compliance profile</p>
                         </div>
                     </div>
 
                     {!hasCalculated ? (
                         <div className="flex-1 flex items-center justify-center">
                             <div className="text-center">
-                                <Info className="h-12 w-12 text-muted mx-auto mb-4" />
-                                <p className="text-sm text-muted">
+                                <Info className="h-12 w-12 text-zinc-700 mx-auto mb-4" />
+                                <p className="text-sm text-zinc-500">
                                     Configure your organization profile and click &ldquo;Calculate&rdquo;
                                     to see results.
                                 </p>
@@ -298,20 +298,20 @@ export default function RiskCostCalculator() {
                     ) : (
                         <div className="space-y-6 animate-fade-in">
                             {/* Risk Score */}
-                            <div className="glass rounded-xl p-6">
+                            <div className="bg-zinc-800/50 border border-zinc-700/50 rounded-xl p-6">
                                 <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm text-muted">Risk Score</span>
+                                    <span className="text-sm text-zinc-500">Risk Score</span>
                                     <span className={`text-sm font-bold ${colors.text}`}>
                                         {results.riskLevel}
                                     </span>
                                 </div>
                                 <div className="flex items-end gap-3">
-                                    <span className="text-4xl font-extrabold">
+                                    <span className="text-4xl font-bold text-white">
                                         {results.riskScore}
                                     </span>
-                                    <span className="text-muted mb-1">/100</span>
+                                    <span className="text-zinc-500 mb-1">/100</span>
                                 </div>
-                                <div className="mt-3 h-2 rounded-full bg-card-border overflow-hidden">
+                                <div className="mt-3 h-2 rounded-full bg-zinc-800 overflow-hidden">
                                     <div
                                         className={`h-full rounded-full ${colors.bar} transition-all duration-1000 ease-out`}
                                         style={{ width: `${results.riskScore}%` }}
@@ -320,21 +320,21 @@ export default function RiskCostCalculator() {
                             </div>
 
                             {/* Annual Cost */}
-                            <div className="glass rounded-xl p-6">
-                                <span className="text-sm text-muted">
+                            <div className="bg-zinc-800/50 border border-zinc-700/50 rounded-xl p-6">
+                                <span className="text-sm text-zinc-500">
                                     Estimated Annual Compliance Cost
                                 </span>
                                 <div className="flex items-end gap-1 mt-2">
-                                    <span className="text-4xl font-extrabold gradient-text">
+                                    <span className="text-4xl font-bold gradient-text">
                                         ${results.annualCost.toLocaleString()}
                                     </span>
-                                    <span className="text-muted mb-1">/year</span>
+                                    <span className="text-zinc-500 mb-1">/year</span>
                                 </div>
                             </div>
 
                             {/* Recommendations */}
                             <div>
-                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
                                     <AlertTriangle className="h-4 w-4 text-warning" />
                                     Recommendations
                                 </h4>
@@ -342,7 +342,7 @@ export default function RiskCostCalculator() {
                                     {results.recommendations.map((rec, i) => (
                                         <li
                                             key={i}
-                                            className="flex items-start gap-2 text-xs text-muted-light"
+                                            className="flex items-start gap-2 text-xs text-zinc-400"
                                         >
                                             <CheckCircle2 className="h-3.5 w-3.5 text-primary-light mt-0.5 shrink-0" />
                                             {rec}

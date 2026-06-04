@@ -21,21 +21,21 @@ export default function PageHero({
   secondaryLabel,
 }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-white/5 bg-background py-24 lg:py-32">
+    <section className="relative overflow-hidden border-b border-white/[0.04] bg-background py-24 lg:py-32 section-glow">
       {/* Background Art */}
-      <div className="absolute inset-0 surface-grid opacity-20" />
+      <div className="absolute inset-0 surface-grid opacity-15" />
       <div className="hero-noise" />
-      <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-[120px]" />
-      <div className="absolute top-1/2 -right-24 h-64 w-64 rounded-full bg-accent/5 blur-[100px]" />
+      <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-primary/8 blur-[120px]" />
+      <div className="absolute top-1/2 -right-24 h-56 w-56 rounded-full bg-accent/5 blur-[100px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl reveal-up">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.25em] text-accent">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-light">
             <Sparkles className="h-3 w-3" />
             {eyebrow}
           </div>
 
-          <h1 className="mt-8 text-5xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="mt-8 text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
             {title.split(' ').map((word, i) => (
               <span key={i} className="inline-block mr-[0.2em] last:mr-0">
                 {word}
@@ -43,7 +43,7 @@ export default function PageHero({
             ))}
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-muted-soft lg:text-xl">
+          <p className="mt-8 max-w-2xl text-lg font-medium leading-relaxed text-zinc-400 lg:text-xl">
             {subtitle}
           </p>
 
@@ -52,9 +52,8 @@ export default function PageHero({
               {primaryHref && primaryLabel && (
                 <Link
                   href={primaryHref}
-                  className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-8 py-4 text-sm font-black text-black transition-all hover:pr-10 hover:text-white active:scale-95"
+                  className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-primary px-8 py-4 text-sm font-semibold text-white transition-all hover:bg-primary/90 hover:shadow-[0_0_24px_rgba(99,102,241,0.3)] active:scale-95"
                 >
-                  <div className="absolute inset-0 bg-linear-to-r from-primary to-accent opacity-0 transition-opacity group-hover:opacity-100" />
                   <span className="relative z-10">{primaryLabel}</span>
                   <ArrowRight className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
@@ -62,10 +61,10 @@ export default function PageHero({
               {secondaryHref && secondaryLabel && (
                 <Link
                   href={secondaryHref}
-                  className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-8 py-4 text-sm font-black text-white transition-all hover:bg-white/10"
+                  className="flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-8 py-4 text-sm font-semibold text-zinc-300 transition-all hover:bg-white/[0.08] hover:text-white"
                 >
                   {secondaryLabel}
-                  <ChevronRight className="h-4 w-4 text-muted-soft" />
+                  <ChevronRight className="h-4 w-4 text-zinc-500" />
                 </Link>
               )}
             </div>

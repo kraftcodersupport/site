@@ -12,35 +12,25 @@ export default async function IndustriesPage() {
 
     return (
         <div className="relative">
-            <PageHero
-                title={dict.nav.industries}
-                subtitle="Sector-specific AI implementations that account for industry-specific constraints, compliance, and competitive dynamics."
-            />
-
-            <section className="py-24 sm:py-32 bg-white">
+            <PageHero title={dict.nav.industries} subtitle="Sector-specific AI implementations that account for industry-specific constraints, compliance, and competitive dynamics." />
+            <section className="section-padding bg-background">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                         {INDUSTRIES.map((industry, index) => (
-                            <div
-                                key={industry.title}
-                                className="group feature-card-light rounded-[40px] p-10 border border-slate-100 reveal-up hover:border-primary/20 transition-all"
-                                style={{ animationDelay: `${index * 80}ms` }}
-                            >
-                                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/5 text-primary mb-8 group-hover:scale-110 transition-transform">
-                                    <industry.icon className="h-7 w-7" />
+                            <div key={industry.title} className="group card-dark rounded-2xl p-8 reveal-up" style={{ animationDelay: `${index * 80}ms` }}>
+                                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary mb-6 group-hover:scale-110 transition-transform">
+                                    <industry.icon className="h-6 w-6" />
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-900 mb-4">{industry.title}</h3>
-                                <p className="text-base font-medium text-slate-500 leading-relaxed mb-8">
-                                    {industry.description}
-                                </p>
-                                <div className="space-y-4 pt-6 border-t border-slate-100">
+                                <h3 className="text-xl font-bold text-white mb-3">{industry.title}</h3>
+                                <p className="text-sm font-medium text-zinc-400 leading-relaxed mb-6">{industry.description}</p>
+                                <div className="space-y-4 pt-5 border-t border-white/[0.06]">
                                     <div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Primary Challenge</span>
-                                        <p className="text-sm font-bold text-slate-700 mt-1">{industry.challenge}</p>
+                                        <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">Primary Challenge</span>
+                                        <p className="text-sm font-medium text-zinc-300 mt-1">{industry.challenge}</p>
                                     </div>
                                     <div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-primary">Strategic Outcome</span>
-                                        <p className="text-sm font-bold text-slate-900 mt-1">{industry.outcome}</p>
+                                        <span className="text-[10px] font-semibold uppercase tracking-widest text-primary-light">Strategic Outcome</span>
+                                        <p className="text-sm font-medium text-white mt-1">{industry.outcome}</p>
                                     </div>
                                 </div>
                             </div>
@@ -48,22 +38,13 @@ export default async function IndustriesPage() {
                     </div>
                 </div>
             </section>
-
-            {/* Agnostic Section */}
-            <section className="py-24 sm:py-32 bg-background relative overflow-hidden">
+            <section className="section-padding bg-background relative overflow-hidden border-t border-white/[0.04] section-glow">
                 <div className="absolute inset-0 surface-grid opacity-10" />
                 <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8 relative z-10">
-                    <h2 className="text-3xl font-black tracking-tight text-white sm:text-4xl">
-                        Don&apos;t see your sector?
-                    </h2>
-                    <p className="mt-6 text-lg font-medium leading-relaxed text-slate-400">
-                        Our delivery methodology is sector-agnostic at its core, but compliance-aware in its implementation. We can design a custom roadmap for any enterprise operating in high-stakes environments.
-                    </p>
+                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Don&apos;t see your sector?</h2>
+                    <p className="mt-6 text-lg font-medium leading-relaxed text-zinc-400">Our delivery methodology is sector-agnostic at its core, but compliance-aware in its implementation. We can design a custom roadmap for any enterprise operating in high-stakes environments.</p>
                     <div className="mt-10">
-                        <Link
-                            href="/contact"
-                            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-10 py-4 text-sm font-black text-white hover:bg-primary hover:border-primary transition-all"
-                        >
+                        <Link href="/contact" className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-8 py-4 text-sm font-semibold text-zinc-300 hover:bg-primary hover:border-primary hover:text-white transition-all">
                             Request Sector Capability Brief <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>

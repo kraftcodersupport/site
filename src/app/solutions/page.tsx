@@ -17,32 +17,32 @@ export default async function SolutionsPage() {
                 subtitle="Specialized AI paradigms for enterprise and startup delivery. We provide the architecture, safety, and implementation layer."
             />
 
-            <section className="py-24 sm:py-32 bg-white">
+            <section className="section-padding bg-background">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                         {NICHES.map((item, index) => (
                             <Link
                                 key={item.slug}
                                 href={`/solutions/${item.slug}`}
-                                className="group flex flex-col justify-between rounded-[40px] bg-slate-50 p-10 border border-slate-100 reveal-up hover:bg-white hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all"
+                                className="group card-dark flex flex-col justify-between rounded-2xl p-8 reveal-up"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 <div>
-                                    <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/5 text-primary transition-transform group-hover:scale-110">
-                                        <item.icon className="h-6 w-6" />
+                                    <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 border border-primary/20 text-primary transition-transform group-hover:scale-110">
+                                        <item.icon className="h-5 w-5" />
                                     </div>
-                                    <h3 className="text-xl font-black tracking-tight text-slate-900 mb-4">
+                                    <h3 className="text-lg font-bold tracking-tight text-white mb-3">
                                         {item.title}
                                     </h3>
-                                    <p className="text-base font-medium leading-relaxed text-slate-500 line-clamp-2">
+                                    <p className="text-sm font-medium leading-relaxed text-zinc-500 line-clamp-2">
                                         {item.shortDescription}
                                     </p>
                                 </div>
-                                <div className="mt-10 flex items-center justify-between">
-                                    <div className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                <div className="mt-8 flex items-center justify-between">
+                                    <div className="rounded-full bg-zinc-800 border border-zinc-700 px-3 py-1 text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">
                                         {item.metric}
                                     </div>
-                                    <ArrowRight className="h-5 w-5 text-slate-300 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                                    <ArrowRight className="h-4 w-4 text-zinc-600 transition-transform group-hover:translate-x-1 group-hover:text-primary-light" />
                                 </div>
                             </Link>
                         ))}
@@ -51,11 +51,11 @@ export default async function SolutionsPage() {
             </section>
 
             {/* Summary Section */}
-            <section className="py-24 sm:py-32 bg-background relative overflow-hidden">
+            <section className="section-padding bg-background relative overflow-hidden border-t border-white/[0.04] section-glow">
                 <div className="absolute inset-0 surface-grid opacity-10" />
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                    <h2 className="text-3xl font-black text-white sm:text-4xl">Architecture first. Implementation always.</h2>
-                    <p className="mt-8 text-xl font-medium text-slate-400 max-w-3xl mx-auto">
+                    <h2 className="text-3xl font-bold text-white sm:text-4xl">Architecture first. Implementation always.</h2>
+                    <p className="mt-8 text-xl font-medium text-zinc-400 max-w-3xl mx-auto">
                         We don&apos;t just build features; we build governed AI programs that scale.
                     </p>
                 </div>
