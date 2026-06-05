@@ -33,120 +33,151 @@ export async function POST(req: NextRequest) {
     const geminiKey = process.env.GEMINI_API_KEY;
     const groqKey = process.env.GROQ_API_KEY;
 
+    let useGroq = false;
+    let geminiError: any = null;
+
     if (geminiKey) {
-      // ─── Gemini Client ───
-      const genAI = new GoogleGenerativeAI(geminiKey);
-      const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
-        systemInstruction: siteContext,
-      });
+      try {
+        const genAI = new GoogleGenerativeAI(geminiKey);
+        const model = genAI.getGenerativeModel({
+          model: "gemini-2.5-flash",
+          systemInstruction: siteContext,
+        });
 
-      // To handle Vercel Hobby timeout limit (10s), we use streaming.
-      // Next.js App Router supports streaming via ReadableStream.
-      const result = await model.generateContentStream({
-        contents: [{ role: "user", parts: [{ text: latestMessage }] }],
-      });
+        // Format history for Gemini (alternate user/model, starting with user)
+        const contents = messages
+          .filter((m: any, idx: number) => !(idx === 0 && m.role === "assistant"))
+          .map((m: any) => ({
+            role: m.role === "assistant" ? "model" : "user",
+            parts: [{ text: m.content }]
+          }));
 
-      const stream = new ReadableStream({
-        async start(controller) {
-          const encoder = new TextEncoder();
-          try {
-            for await (const chunk of result.stream) {
-              const text = chunk.text();
-              controller.enqueue(encoder.encode(text));
+        if (contents.length === 0) {
+          contents.push({ role: "user", parts: [{ text: latestMessage }] });
+        }
+
+        // To handle Vercel Hobby timeout limit (10s), we use streaming.
+        const result = await model.generateContentStream({
+          contents,
+        });
+
+        const stream = new ReadableStream({
+          async start(controller) {
+            const encoder = new TextEncoder();
+            try {
+              for await (const chunk of result.stream) {
+                const text = chunk.text();
+                controller.enqueue(encoder.encode(text));
+              }
+            } catch (e) {
+              controller.error(e);
+            } finally {
+              controller.close();
             }
-          } catch (e) {
-            controller.error(e);
-          } finally {
-            controller.close();
-          }
-        },
-      });
+          },
+        });
 
-      return new Response(stream, {
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Transfer-Encoding": "chunked",
-        },
-      });
+        return new Response(stream, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Transfer-Encoding": "chunked",
+          },
+        });
 
-    } else if (groqKey) {
-      // ─── Fallback to Groq if Gemini Key is not set yet ───
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${groqKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: siteContext },
-            { role: "user", content: latestMessage }
-          ],
-          stream: true,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Groq API returned error: ${response.statusText}`);
+      } catch (err: any) {
+        console.error("Gemini stream initialization failed, falling back to Groq:", err);
+        geminiError = err;
+        useGroq = true;
       }
+    }
 
-      // Stream from Groq completions API
-      const stream = new ReadableStream({
-        async start(controller) {
-          const reader = response.body?.getReader();
-          const decoder = new TextDecoder();
-          const encoder = new TextEncoder();
-          if (!reader) return controller.close();
+    if (!geminiKey || useGroq) {
+      if (groqKey) {
+        // Format history for Groq (standard OpenAI role structure)
+        const formattedMessages = [
+          { role: "system", content: siteContext },
+          ...messages.map((m: any) => ({
+            role: m.role === "assistant" ? "assistant" : "user",
+            content: m.content
+          }))
+        ];
 
-          try {
-            let buffer = "";
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${groqKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: formattedMessages,
+            stream: true,
+          }),
+        });
 
-              buffer += decoder.decode(value, { stream: true });
-              const lines = buffer.split("\n");
-              buffer = lines.pop() || "";
+        if (!response.ok) {
+          throw new Error(`Groq API returned error: ${response.statusText}`);
+        }
 
-              for (const line of lines) {
-                const cleaned = line.trim();
-                if (!cleaned || cleaned === "data: [DONE]") continue;
+        // Stream from Groq completions API
+        const stream = new ReadableStream({
+          async start(controller) {
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            const encoder = new TextEncoder();
+            if (!reader) return controller.close();
 
-                if (cleaned.startsWith("data: ")) {
-                  try {
-                    const parsed = JSON.parse(cleaned.slice(6));
-                    const text = parsed.choices[0]?.delta?.content || "";
-                    if (text) {
-                      controller.enqueue(encoder.encode(text));
+            try {
+              let buffer = "";
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop() || "";
+
+                for (const line of lines) {
+                  const cleaned = line.trim();
+                  if (!cleaned || cleaned === "data: [DONE]") continue;
+
+                  if (cleaned.startsWith("data: ")) {
+                    try {
+                      const parsed = JSON.parse(cleaned.slice(6));
+                      const text = parsed.choices[0]?.delta?.content || "";
+                      if (text) {
+                        controller.enqueue(encoder.encode(text));
+                      }
+                    } catch (err) {
+                      // Ignore parse errors on incomplete chunks
                     }
-                  } catch (err) {
-                    // Ignore parse errors on incomplete chunks
                   }
                 }
               }
+            } catch (e) {
+              controller.error(e);
+            } finally {
+              controller.close();
             }
-          } catch (e) {
-            controller.error(e);
-          } finally {
-            controller.close();
-          }
-        },
-      });
+          },
+        });
 
-      return new Response(stream, {
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Transfer-Encoding": "chunked",
-        },
-      });
+        return new Response(stream, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Transfer-Encoding": "chunked",
+          },
+        });
 
-    } else {
-      return Response.json(
-        { error: "No API keys (GEMINI_API_KEY or GROQ_API_KEY) found." },
-        { status: 500 }
-      );
+      } else {
+        const errMsg = geminiError 
+          ? `Gemini failed (${geminiError.message || geminiError}) and Groq API key is not configured.`
+          : "No API keys (GEMINI_API_KEY or GROQ_API_KEY) found.";
+        return Response.json(
+          { error: errMsg },
+          { status: 500 }
+        );
+      }
     }
 
   } catch (error: any) {

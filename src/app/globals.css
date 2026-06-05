@@ -89,6 +89,26 @@
     background-color: var(--color-primary);
     color: #ffffff;
   }
+
+  /* ── Custom Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f4f4f5;
+    border-left: 1px solid #e4e4e7;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #a1a1aa;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -106,11 +126,11 @@
   }
 
   .glass-strong {
-    background: rgba(24, 24, 27, 0.85);
+    background: rgba(0, 0, 0);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    /* backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px); */
   }
 
   /* ── Dark Cards (replaces feature-card-light) ── */
@@ -135,15 +155,16 @@
   }
 
   .card-light:hover {
-    border-color: rgba(99, 102, 241, 0.3); /* indigo-500/30 */
+    border-color: rgba(99, 102, 241, 0.3);
+    /* indigo-500/30 */
     box-shadow: 0 12px 32px rgba(99, 102, 241, 0.08);
     transform: translateY(-2px);
   }
 
   /* ── Section Utilities ── */
   .section-padding {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   @media (min-width: 1024px) {

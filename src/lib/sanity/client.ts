@@ -83,7 +83,8 @@ export async function getSanityBlogPosts(): Promise<any[]> {
       readTime,
       published,
       description,
-      content
+      content,
+      slug
     }`;
     const data = await sanityClient.fetch(query);
     return data.length > 0 ? data : BLOG_POSTS;
@@ -92,3 +93,47 @@ export async function getSanityBlogPosts(): Promise<any[]> {
     return BLOG_POSTS;
   }
 }
+
+export async function getSanityBlogPostBySlug(slug: string): Promise<any> {
+  const normalizeLocalSlug = (title: string) =>
+    title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+  if (!isSanityConfigured || !sanityClient) {
+    return BLOG_POSTS.find(
+      (post) =>
+        normalizeLocalSlug(post.title) === slug ||
+        post.title.toLowerCase().replace(/ /g, "-") === slug
+    );
+  }
+  try {
+    // Query by slug.current or fallback to matching the title normalized
+    const query = `*[_type == "blogPost" && (slug.current == $slug || title match $slugTitle)][0] {
+      title,
+      category,
+      readTime,
+      published,
+      description,
+      content,
+      slug
+    }`;
+    const slugTitle = slug.replace(/-/g, " ");
+    const data = await sanityClient.fetch(query, { slug, slugTitle });
+    
+    if (data) return data;
+    
+    // Local fallback if no data in Sanity
+    return BLOG_POSTS.find(
+      (post) =>
+        normalizeLocalSlug(post.title) === slug ||
+        post.title.toLowerCase().replace(/ /g, "-") === slug
+    );
+  } catch (error) {
+    console.error("Failed to fetch single blog post from Sanity:", error);
+    return BLOG_POSTS.find(
+      (post) =>
+        normalizeLocalSlug(post.title) === slug ||
+        post.title.toLowerCase().replace(/ /g, "-") === slug
+    );
+  }
+}
+

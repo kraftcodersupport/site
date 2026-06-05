@@ -282,7 +282,7 @@ export default async function HomePage() {
                                     &ldquo;{t.quote}&rdquo;
                                 </p>
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 border border-zinc-800" />
+                                    <div className="h-12 w-12 rounded-full bg-linear-to-br from-primary/20 to-accent/20 border border-zinc-800" />
                                     <div>
                                         <div className="text-sm font-bold text-white">{t.author}</div>
                                         <div className="text-xs font-bold text-zinc-500">{t.role}, {t.company}</div>
@@ -320,7 +320,7 @@ export default async function HomePage() {
                                 >
                                     <div>
                                         {/* Typographic avatar redesign */}
-                                        <div className="relative mb-6 aspect-square max-w-[100px] mx-auto overflow-hidden rounded-full bg-gradient-to-br from-indigo-50 to-indigo-100 border border-indigo-200 flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300">
+                                        <div className="relative mb-6 aspect-square max-w-[100px] mx-auto overflow-hidden rounded-full bg-linear-to-br from-indigo-50 to-indigo-100 border border-indigo-200 flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300">
                                             <span className="text-3xl font-black tracking-wider text-indigo-600 font-display">
                                                 {initials}
                                             </span>
@@ -330,7 +330,7 @@ export default async function HomePage() {
                                         <p className="text-sm font-medium text-zinc-600 leading-relaxed line-clamp-3">{member.bio}</p>
                                     </div>
                                     <div className="flex justify-center gap-3 mt-6">
-                                        {Object.entries(member.socials).map(([platform, link]) => (
+                                        {Object?.entries(member?.socials).map(([platform, link]) => (
                                             <a key={platform} href={link as string} className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-500 hover:text-primary hover:border-primary hover:bg-primary/5 transition-all">
                                                 <Globe className="h-4 w-4" />
                                             </a>
@@ -372,7 +372,7 @@ export default async function HomePage() {
                         {blogPosts.slice(0, 3).map((post, index) => (
                             <article
                                 key={post.title}
-                                className="group relative flex flex-col items-start card-dark p-8 rounded-3xl reveal-up min-h-[300px] justify-between"
+                                className="group relative flex flex-col items-start card-dark p-8 rounded-3xl border border-zinc-800 reveal-up min-h-[300px] justify-between"
                                 style={{ animationDelay: `${index * 150}ms` }}
                             >
                                 <div>
