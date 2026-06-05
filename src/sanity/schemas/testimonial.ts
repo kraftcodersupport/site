@@ -12,6 +12,14 @@ export const testimonial = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "image",
+      title: "Author Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: "role",
       title: "Role / Designation",
       type: "string",

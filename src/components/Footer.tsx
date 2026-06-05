@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ExternalLink,
   Send,
@@ -14,7 +15,10 @@ import Image from "next/image";
 import { brand, NAV_ITEMS } from "@/lib/niches";
 
 export default function Footer({ locale, dict }: { locale: string; dict: any }) {
+  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+
+  if (pathname?.startsWith("/studio")) return null;
 
   return (
     <footer className="relative bg-background pt-16 pb-12 overflow-hidden border-t border-white/4 mt-10">
@@ -44,9 +48,7 @@ export default function Footer({ locale, dict }: { locale: string; dict: any }) 
             {/* Brand Column */}
             <div>
               <Link href="/" className="group flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white transition-all group-hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]">
-                  <span className="text-lg font-bold">K</span>
-                </div>
+                <Image src="/logo2.png" alt="Logo" width={40} height={40} className="h-10 w-auto rounded-lg" />
                 <div className="flex flex-col">
                   <span className="text-xl font-bold tracking-tight text-white">
                     {brand.name.split(' ')[0]}<span className="text-primary-light">{brand.name.split(' ')[1] ? ` ${brand.name.split(' ')[1]}` : ''}</span>

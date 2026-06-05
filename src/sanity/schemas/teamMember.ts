@@ -12,6 +12,14 @@ export const teamMember = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "image",
+      title: "Profile Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: "role",
       title: "Role / Position",
       type: "string",
@@ -30,26 +38,10 @@ export const teamMember = defineType({
       description: "Controls the order of team members on the team page (e.g. 1, 2, 3, etc.)",
     }),
     defineField({
-      name: "socials",
-      title: "Social Links",
-      type: "object",
-      fields: [
-        defineField({
-          name: "linkedin",
-          title: "LinkedIn URL",
-          type: "string",
-        }),
-        defineField({
-          name: "twitter",
-          title: "Twitter URL",
-          type: "string",
-        }),
-        defineField({
-          name: "github",
-          title: "GitHub URL",
-          type: "string",
-        }),
-      ],
+      name: "portfolioUrl",
+      title: "Portfolio URL",
+      type: "url",
+      description: "Optional link to personal portfolio or LinkedIn",
     }),
   ],
 });

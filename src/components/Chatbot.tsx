@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Sparkles, BookOpen, BrainCircuit, Code2, Play, Mic } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { X, Send, Sparkles, BookOpen, BrainCircuit, Code2, Play, Mic, Bot } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
   role: "user" | "assistant";
@@ -20,6 +23,9 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeakingMode, setIsSpeakingMode] = useState(false);
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/studio")) return null;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -78,9 +84,10 @@ export default function Chatbot() {
         const chunkText = decoder.decode(value);
         setMessages((prev) => {
           const updated = [...prev];
-          const lastMsg = updated[updated.length - 1];
+          const lastIndex = updated.length - 1;
+          const lastMsg = updated[lastIndex];
           if (lastMsg && lastMsg.role === "assistant") {
-            lastMsg.content += chunkText;
+            updated[lastIndex] = { ...lastMsg, content: lastMsg.content + chunkText };
           }
           return updated;
         });
@@ -104,56 +111,7 @@ export default function Chatbot() {
     handleSendMessage(input);
   };
 
-  // Improved markdown formatting for structure
-  function formatChatMessage(text: string) {
-    if (!text) return "";
-
-    // Simple robust markdown parser
-    let formattedText = text
-      .replace(/```([\s\S]*?)```/g, '<pre class="bg-zinc-100 p-3 rounded-lg text-xs overflow-x-auto my-2 border border-zinc-200 text-zinc-800"><code>$1</code></pre>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-zinc-900 font-bold">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="text-zinc-700 italic">$1</em>')
-      .replace(/`(.*?)`/g, '<code class="bg-zinc-100 px-1.5 py-0.5 rounded text-indigo-600 font-mono text-xs border border-zinc-200">$1</code>');
-
-    // Split by blocks (paragraphs or lists)
-    const lines = formattedText.split('\n');
-    let html = '';
-    let inList = false;
-
-    lines.forEach((line) => {
-      const trimmed = line.trim();
-      if (!trimmed) {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += '<div class="h-2"></div>';
-        return;
-      }
-
-      if (trimmed.startsWith('### ')) {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += `<h5 class="font-bold text-zinc-900 text-sm mt-3 mb-1">${trimmed.slice(4)}</h5>`;
-      } else if (trimmed.startsWith('## ')) {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += `<h4 class="font-extrabold text-zinc-900 text-base mt-4 mb-2">${trimmed.slice(3)}</h4>`;
-      } else if (trimmed.startsWith('# ')) {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += `<h3 class="font-black text-zinc-900 text-lg mt-5 mb-3">${trimmed.slice(2)}</h3>`;
-      } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-        if (!inList) { html += '<ul class="list-none space-y-1 my-2">'; inList = true; }
-        html += `<li class="flex items-start gap-2 text-zinc-700"><span class="h-1.5 w-1.5 rounded-full bg-indigo-500 mt-2 shrink-0"></span><span>${trimmed.slice(2)}</span></li>`;
-      } else if (/^\d+\.\s/.test(trimmed)) {
-        if (!inList) { html += '<ul class="list-decimal pl-4 space-y-1 my-2 text-zinc-700">'; inList = true; }
-        const content = trimmed.replace(/^\d+\.\s/, '');
-        html += `<li>${content}</li>`;
-      } else {
-        if (inList) { html += '</ul>'; inList = false; }
-        html += `<p class="text-zinc-700 my-1 leading-relaxed">${trimmed}</p>`;
-      }
-    });
-
-    if (inList) html += '</ul>';
-
-    return <div dangerouslySetInnerHTML={{ __html: html }} className="chat-markdown" />;
-  }
+  // Markdown formatting is now handled by react-markdown directly in the render
 
   return (
     <>
@@ -165,9 +123,11 @@ export default function Chatbot() {
           >
 
             {/* Header */}
-            <div className="flex items-center justify-between p-4 px-6 bg-transparent absolute top-0 w-full z-10 pointer-events-none">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-indigo-50 shadow-sm pointer-events-auto">
-                <Sparkles className="h-3 w-3 text-indigo-500" />
+            <div className="flex bg-[#fdfcff] backdrop-blur-sm rounded-t-3xl items-center justify-between p-4 px-6 absolute top-0 w-full z-10 pointer-events-none">
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-indigo-50 shadow-sm pointer-events-auto">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 shrink-0">
+                  <Bot />
+                </div>
                 <span className="text-[10px] font-bold text-indigo-900 tracking-wide uppercase">KraftCoder AI Assistant</span>
               </div>
               <button
@@ -229,16 +189,16 @@ export default function Chatbot() {
                           }`}
                       >
                         {/* Avatar */}
-                        {isAssistant && (
-                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-linear-to-tr from-indigo-500 to-pink-400 text-white shadow-sm mt-1">
-                            <Sparkles className="h-3.5 w-3.5" />
+                        {/* {isAssistant && (
+                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 shrink-0 ml-1">
+                            <Bot />
                           </div>
-                        )}
+                        )} */}
 
                         <div
                           className={`rounded-3xl px-5 py-3.5 text-sm leading-relaxed shadow-sm ${isAssistant
-                              ? "bg-white border border-indigo-50 text-zinc-800 rounded-tl-sm"
-                              : "bg-zinc-900 text-white rounded-tr-sm"
+                            ? "bg-white border border-indigo-50 text-zinc-800 rounded-tl-sm"
+                            : "bg-zinc-900 text-white rounded-tr-sm"
                             }`}
                         >
                           {msg.content === "" && isLoading ? (
@@ -249,7 +209,38 @@ export default function Chatbot() {
                             </div>
                           ) : (
                             <div className="space-y-1.5">
-                              {isAssistant ? formatChatMessage(msg.content) : <p>{msg.content}</p>}
+                              {isAssistant ? (
+                                <div className="chat-markdown prose-sm">
+                                  <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                      pre: ({ node, ...props }) => <pre className="bg-zinc-100 p-3 rounded-lg text-[11px] overflow-x-auto my-2 border border-zinc-200 text-zinc-800" {...props} />,
+                                      code: ({ node, className, children, ...props }) => {
+                                        const match = /language-(\w+)/.exec(className || "");
+                                        return !match ? (
+                                          <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-indigo-600 font-mono text-xs border border-zinc-200" {...props}>
+                                            {children}
+                                          </code>
+                                        ) : (
+                                          <code className={className} {...props}>
+                                            {children}
+                                          </code>
+                                        );
+                                      },
+                                      strong: ({ node, ...props }) => <strong className="text-zinc-900 font-bold" {...props} />,
+                                      em: ({ node, ...props }) => <em className="text-zinc-700 italic" {...props} />,
+                                      h3: ({ node, ...props }) => <h3 className="font-black text-zinc-900 text-lg mt-5 mb-3" {...props} />,
+                                      h4: ({ node, ...props }) => <h4 className="font-extrabold text-zinc-900 text-base mt-4 mb-2" {...props} />,
+                                      h5: ({ node, ...props }) => <h5 className="font-bold text-zinc-900 text-sm mt-3 mb-1" {...props} />,
+                                      ul: ({ node, ...props }) => <ul className="list-disc pl-4 space-y-1 my-2 text-zinc-700 marker:text-indigo-500" {...props} />,
+                                      ol: ({ node, ...props }) => <ol className="list-decimal pl-4 space-y-1 my-2 text-zinc-700" {...props} />,
+                                      p: ({ node, ...props }) => <p className="text-zinc-700 my-1 leading-relaxed" {...props} />
+                                    }}
+                                  >
+                                    {msg.content}
+                                  </ReactMarkdown>
+                                </div>
+                              ) : <p>{msg.content}</p>}
                             </div>
                           )}
                         </div>
@@ -268,7 +259,7 @@ export default function Chatbot() {
                 className="flex items-center gap-2 bg-white rounded-full p-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-zinc-100"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-indigo-500 shrink-0 ml-1">
-                  <div className="h-4 w-4 rounded-full bg-linear-to-tr from-indigo-400 to-pink-400 opacity-80" />
+                  <Bot />
                 </div>
                 <input
                   type="text"
@@ -302,10 +293,10 @@ export default function Chatbot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-100 flex h-14 w-14 items-center justify-center rounded-full bg-linear-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white hover:scale-105 active:scale-95 transition-all shadow-[0_12px_30px_rgba(99,102,241,0.4)] group"
+          className="fixed bottom-6 right-6 z-100 flex h-14 w-14 items-center justify-center rounded-full bg-zinc-900 text-white hover:scale-105 active:scale-95 transition-all shadow-[0_12px_30px_rgba(99,102,241,0.4)] group"
           aria-label="Open assistant"
         >
-          <Sparkles className="h-6 w-6 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+          <Bot className="h-8 w-8 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
         </button>
       )}
     </>

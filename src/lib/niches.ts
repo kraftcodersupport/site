@@ -106,11 +106,8 @@ export interface TeamMember {
   name: string;
   role: string;
   bio: string;
-  socials: {
-    linkedin?: string;
-    twitter?: string;
-    github?: string;
-  };
+  portfolioUrl?: string;
+  imageUrl?: string;
 }
 
 export interface Testimonial {
@@ -679,25 +676,25 @@ export const TEAM_MEMBERS: TeamMember[] = [
     name: "Alex Thompson",
     role: "Managing Partner",
     bio: "Ex-Big 4 strategy lead with 15+ years experience in digital transformation.",
-    socials: { linkedin: "#", twitter: "#" },
+    portfolioUrl: "#",
   },
   {
     name: "Sarah Chen",
     role: "Head of AI Delivery",
     bio: "Specializes in enterprise-scale RAG systems and autonomous agent orchestration.",
-    socials: { linkedin: "#", github: "#" },
+    portfolioUrl: "#",
   },
   {
     name: "Michael Ross",
     role: "Product Strategy",
     bio: "Focuses on ROI modeling and roadmap prioritization for AI-first products.",
-    socials: { linkedin: "#" },
+    portfolioUrl: "#",
   },
   {
     name: "Elena Petrov",
     role: "Engineering Lead",
     bio: "Full-stack architect with a background in secure cloud infrastructure.",
-    socials: { github: "#", linkedin: "#" },
+    portfolioUrl: "#",
   },
 ];
 

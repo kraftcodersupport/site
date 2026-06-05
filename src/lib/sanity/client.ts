@@ -39,6 +39,7 @@ export async function getSanityTestimonials(): Promise<any[]> {
   try {
     const query = `*[_type == "testimonial"] | order(_createdAt desc) {
       author,
+      "imageUrl": image.asset->url,
       role,
       company,
       quote,
@@ -59,9 +60,10 @@ export async function getSanityTeamMembers(): Promise<any[]> {
   try {
     const query = `*[_type == "teamMember"] | order(order asc) {
       name,
+      "imageUrl": image.asset->url,
       role,
       bio,
-      socials,
+      portfolioUrl,
       order
     }`;
     const data = await sanityClient.fetch(query);

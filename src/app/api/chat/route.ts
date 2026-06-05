@@ -2,16 +2,19 @@ import { NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import {
   SERVICES,
-  TEAM_MEMBERS,
-  BLOG_POSTS,
   brand,
 } from "@/lib/niches";
+import { getSanityTeamMembers, getSanityBlogPosts } from "@/lib/sanity/client";
 
-// Create context payload
-const siteContext = `
+export async function POST(req: NextRequest) {
+  try {
+    const teamMembers = await getSanityTeamMembers();
+    const blogPosts = await getSanityBlogPosts();
+
+    const siteContext = `
 You are the AI assistant for KraftCoder (formerly Executive AI Consultancy).
 Your job is to answer questions ONLY about KraftCoder, its team, services, blogs, and solutions.
-Be extremely concise, professional, and friendly. Answer in 2-3 sentences maximum.
+Use Markdown formatting (bullet points, bold text, headers) to structure your answers for readability. Keep it professional, friendly, and concise.
 If a question is NOT about KraftCoder, politely decline: "I'm sorry, I can only answer questions related to KraftCoder's services, team, and blog posts."
 
 Here is the authentic context of KraftCoder:
@@ -20,13 +23,11 @@ Here is the authentic context of KraftCoder:
 - Services:
 ${SERVICES.map(s => `  * ${s.title}: ${s.description}. Key outcomes: ${s.bullets.join(", ")}`).join("\n")}
 - Team Members:
-${TEAM_MEMBERS.map(t => `  * ${t.name} (${t.role}): ${t.bio}`).join("\n")}
+${teamMembers.map((t: any) => `  * ${t.name} (${t.role}): ${t.bio}`).join("\n")}
 - Blogs:
-${BLOG_POSTS.map(b => `  * ${b.title} (${b.category}): ${b.description}`).join("\n")}
+${blogPosts.map((b: any) => `  * ${b.title} (${b.category}): ${b.description}`).join("\n")}
 `;
 
-export async function POST(req: NextRequest) {
-  try {
     const { messages } = await req.json();
     const latestMessage = messages[messages.length - 1]?.content || "";
 
@@ -45,12 +46,20 @@ export async function POST(req: NextRequest) {
         });
 
         // Format history for Gemini (alternate user/model, starting with user)
-        const contents = messages
-          .filter((m: any, idx: number) => !(idx === 0 && m.role === "assistant"))
-          .map((m: any) => ({
-            role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.content }]
-          }));
+        const contents: any[] = [];
+        for (const m of messages) {
+          const role = m.role === "assistant" ? "model" : "user";
+          const lastContent = contents[contents.length - 1];
+          if (lastContent && lastContent.role === role) {
+            lastContent.parts[0].text += "\n\n" + m.content;
+          } else {
+            contents.push({ role, parts: [{ text: m.content }] });
+          }
+        }
+
+        if (contents.length > 0 && contents[0].role === "model") {
+          contents.shift();
+        }
 
         if (contents.length === 0) {
           contents.push({ role: "user", parts: [{ text: latestMessage }] });
@@ -61,13 +70,18 @@ export async function POST(req: NextRequest) {
           contents,
         });
 
+        const iterator = result.stream[Symbol.asyncIterator]();
+        const firstChunk = await iterator.next(); // Catch immediate stream errors
+
         const stream = new ReadableStream({
           async start(controller) {
             const encoder = new TextEncoder();
             try {
-              for await (const chunk of result.stream) {
-                const text = chunk.text();
-                controller.enqueue(encoder.encode(text));
+              if (!firstChunk.done) {
+                controller.enqueue(encoder.encode(firstChunk.value.text()));
+                for await (const chunk of iterator) {
+                  controller.enqueue(encoder.encode(chunk.text()));
+                }
               }
             } catch (e) {
               controller.error(e);

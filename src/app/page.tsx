@@ -7,6 +7,7 @@ import {
     Globe,
     Star,
     ChevronRight,
+    ExternalLink,
 } from "lucide-react";
 import HomeHero from "@/components/HomeHero";
 import {
@@ -269,20 +270,26 @@ export default async function HomePage() {
                     <div className="grid gap-6 lg:grid-cols-3">
                         {testimonials.map((t, index) => (
                             <div
-                                key={t.author}
+                                key={t?.author}
                                 className="card-dark rounded-2xl p-8 border-l-4 border-l-primary reveal-up"
                                 style={{ animationDelay: `${index * 150}ms` }}
                             >
                                 <div className="flex gap-1 mb-6">
-                                    {[...Array(t.rating)].map((_, i) => (
+                                    {t?.rating && [...Array(t?.rating)].map((_, i) => (
                                         <Star key={i} className="h-5 w-5 fill-emerald-400 text-emerald-400" />
                                     ))}
                                 </div>
                                 <p className="text-base font-semibold leading-relaxed text-zinc-300 italic mb-8">
-                                    &ldquo;{t.quote}&rdquo;
+                                    &ldquo;{t?.quote}&rdquo;
                                 </p>
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-full bg-linear-to-br from-primary/20 to-accent/20 border border-zinc-800" />
+                                    {t?.imageUrl ? (
+                                        <img src={t.imageUrl} alt={t?.author} className="h-12 w-12 rounded-full object-cover border border-zinc-800" />
+                                    ) : (
+                                        <div className="h-12 w-12 rounded-full bg-linear-to-br from-primary/20 to-accent/20 border border-zinc-800 flex items-center justify-center text-white font-bold text-lg">
+                                            {t?.author?.charAt(0)?.toUpperCase()}
+                                        </div>
+                                    )}
                                     <div>
                                         <div className="text-sm font-bold text-white">{t.author}</div>
                                         <div className="text-xs font-bold text-zinc-500">{t.role}, {t.company}</div>
@@ -315,26 +322,31 @@ export default async function HomePage() {
                             return (
                                 <div
                                     key={member.name}
-                                    className="group card-light rounded-2xl p-8 text-center reveal-up flex flex-col justify-between min-h-[360px]"
+                                    className="relative pt-12 reveal-up"
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
-                                    <div>
-                                        {/* Typographic avatar redesign */}
-                                        <div className="relative mb-6 aspect-square max-w-[100px] mx-auto overflow-hidden rounded-full bg-linear-to-br from-indigo-50 to-indigo-100 border border-indigo-200 flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300">
-                                            <span className="text-3xl font-black tracking-wider text-indigo-600 font-display">
-                                                {initials}
-                                            </span>
+                                    <div className={`group flex flex-col items-center text-center rounded-2xl p-6 pt-14 transition-all duration-300 hover:shadow-md ${
+                                        ['bg-indigo-50/80', 'bg-emerald-50/80', 'bg-amber-50/80', 'bg-rose-50/80'][index % 4]
+                                    }`}>
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 aspect-square w-24 overflow-hidden rounded-full bg-white border-4 border-white shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-center justify-center z-10">
+                                            {member?.imageUrl ? (
+                                                <img src={member.imageUrl} alt={member.name} className="h-full w-full object-cover" />
+                                            ) : (
+                                                <span className="text-2xl font-black tracking-wider text-zinc-400 font-display">
+                                                    {initials}
+                                                </span>
+                                            )}
                                         </div>
-                                        <h3 className="text-lg font-bold text-zinc-900">{member.name}</h3>
-                                        <p className="text-[11px] font-bold text-primary uppercase tracking-widest mt-1.5 mb-4">{member.role}</p>
-                                        <p className="text-sm font-medium text-zinc-600 leading-relaxed line-clamp-3">{member.bio}</p>
-                                    </div>
-                                    <div className="flex justify-center gap-3 mt-6">
-                                        {Object?.entries(member?.socials).map(([platform, link]) => (
-                                            <a key={platform} href={link as string} className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-500 hover:text-primary hover:border-primary hover:bg-primary/5 transition-all">
-                                                <Globe className="h-4 w-4" />
-                                            </a>
-                                        ))}
+                                        <h3 className="text-base font-bold text-zinc-900">{member.name}</h3>
+                                        <p className="text-[13px] font-medium text-zinc-500 mt-1 mb-2">{member.role}</p>
+                                        
+                                        {member?.portfolioUrl && (
+                                            <div className="mt-2">
+                                                <a href={member.portfolioUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-400 hover:text-primary transition-colors">
+                                                    View Portfolio <ExternalLink className="h-3 w-3" />
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             );
