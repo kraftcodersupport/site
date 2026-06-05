@@ -325,10 +325,8 @@ export default async function HomePage() {
                                     className="relative pt-12 reveal-up"
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
-                                    <div className={`group flex flex-col items-center text-center rounded-2xl p-6 pt-14 transition-all duration-300 hover:shadow-md ${
-                                        ['bg-indigo-50/80', 'bg-emerald-50/80', 'bg-amber-50/80', 'bg-rose-50/80'][index % 4]
-                                    }`}>
-                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 aspect-square w-24 overflow-hidden rounded-full bg-white border-4 border-white shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-center justify-center z-10">
+                                    <div className={`group flex flex-col items-center text-center rounded-2xl p-6 pt-14 transition-all duration-300 hover:shadow-md border border-zinc-200 bg-background`}>
+                                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 aspect-square w-32 overflow-hidden rounded-full bg-white border-4 border-white shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-center justify-center z-10">
                                             {member?.imageUrl ? (
                                                 <img src={member.imageUrl} alt={member.name} className="h-full w-full object-cover" />
                                             ) : (
@@ -337,9 +335,9 @@ export default async function HomePage() {
                                                 </span>
                                             )}
                                         </div>
-                                        <h3 className="text-base font-bold text-zinc-900">{member.name}</h3>
+                                        <h3 className="text-base font-bold text-foreground">{member.name}</h3>
                                         <p className="text-[13px] font-medium text-zinc-500 mt-1 mb-2">{member.role}</p>
-                                        
+
                                         {member?.portfolioUrl && (
                                             <div className="mt-2">
                                                 <a href={member.portfolioUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-400 hover:text-primary transition-colors">
