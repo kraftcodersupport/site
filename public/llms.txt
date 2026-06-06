@@ -1,0 +1,47 @@
+# KraftCoder
+
+> Enterprise AI consulting and strategy firm helping organizations turn AI into measurable business outcomes.
+
+## About
+
+KraftCoder is a premium AI strategy and technical execution firm. We help leadership teams move beyond the hype and focus on the 2-3 use cases that will actually move the needle in their P&L. Our delivery model is security-first, KPI-led, and engineering-excellent.
+
+- Website: https://kraft-coder.vercel.app
+- Email: hello@kraftcoder.com
+- Location: Tashkent, Uzbekistan
+
+## Services
+
+- AI Consulting: Executive workshops, opportunity maps, and ROI models
+- AI Strategy: Practical adoption plans aligned with leadership and operations
+- AI Agent Development: Autonomous agents with human-in-the-loop controls
+- AI Automation: Workflow automation across support, operations, sales, and finance
+- Enterprise AI Solutions: Secure, governed AI programs for departments at scale
+- RAG Systems: Knowledge retrieval grounded in your documents and policies
+- Chatbot Development: Customer and employee assistants with guardrails
+- Custom Software Development: Full-stack engineering for AI products
+- SaaS Development: AI-enabled products for monetization and retention
+- Cloud & DevOps: Deployment pipelines, observability, and infrastructure
+
+## Key Pages
+
+- Services: https://kraft-coder.vercel.app/services
+- Solutions: https://kraft-coder.vercel.app/solutions
+- Industries: https://kraft-coder.vercel.app/industries
+- Case Studies: https://kraft-coder.vercel.app/case-studies
+- Blog: https://kraft-coder.vercel.app/blog
+- About: https://kraft-coder.vercel.app/about
+- Contact: https://kraft-coder.vercel.app/contact
+
+## Industries Served
+
+- Startups
+- SaaS
+- Financial Services
+- Healthcare
+- Manufacturing
+- Logistics
+
+## Technology Stack
+
+Next.js, React, Python, TensorFlow, LangChain, OpenAI, AWS, Docker, PostgreSQL, MongoDB, Kubernetes, Figma

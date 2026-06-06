@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ChevronRight, Sparkles } from "lucide-react";
+import { getBreadcrumbSchema, JsonLd } from "@/lib/jsonld";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -9,6 +10,7 @@ interface PageHeroProps {
   primaryLabel?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
+  breadcrumbs?: { name: string; href?: string }[];
 }
 
 export default function PageHero({
@@ -19,9 +21,13 @@ export default function PageHero({
   primaryLabel,
   secondaryHref,
   secondaryLabel,
+  breadcrumbs,
 }: PageHeroProps) {
   return (
     <section className="relative overflow-hidden border-b border-zinc-900 bg-background py-28 lg:py-36">
+      {/* ── SEO: Structured Data ── */}
+      {breadcrumbs && <JsonLd data={getBreadcrumbSchema(breadcrumbs)} />}
+
       {/* Background Decor */}
       <div className="absolute inset-0 surface-grid opacity-15" />
       <div className="hero-noise" />

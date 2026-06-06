@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "How KraftCoder handles and protects your organizational data, credentials, and cookies.",
+  alternates: { canonical: "/privacy" },
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 export default function PrivacyPage() {
   return (
     <div className="relative">

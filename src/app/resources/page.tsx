@@ -1,8 +1,22 @@
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import { RESOURCES } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 
+export const metadata: Metadata = {
+    title: "AI Resources — Strategy Decks, Frameworks & Checklists",
+    description:
+        "Strategy decks, governance manuals, and evaluation scorecards for leaders who need to deliver. No marketing fluff, just utility.",
+    keywords: ["AI resources", "AI strategy decks", "AI governance frameworks", "AI scorecards"],
+    alternates: { canonical: "/resources" },
+    openGraph: {
+        title: "AI Resources — KraftCoder",
+        description: "Strategy decks, governance manuals, and evaluation scorecards for AI leaders.",
+        url: "/resources",
+        type: "website",
+    },
+};
 export default async function ResourcesPage() {
     const cookieStore = await cookies();
     const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -20,8 +34,8 @@ export default async function ResourcesPage() {
                                     <resource.icon className="h-5 w-5" />
                                 </div>
                                 <h3 className="text-lg font-bold text-white mb-3">{resource.title}</h3>
-                                <p className="text-sm font-medium text-zinc-400 leading-relaxed mb-6 flex-grow">{resource.description}</p>
-                                <div className="pt-5 border-t border-white/[0.06] flex items-center justify-between">
+                                <p className="text-sm font-medium text-zinc-400 leading-relaxed mb-6 grow">{resource.description}</p>
+                                <div className="pt-5 border-t border-white/6 flex items-center justify-between">
                                     <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{resource.format}</span>
                                     <button className="text-sm font-semibold text-primary-light hover:text-white transition-colors">Download →</button>
                                 </div>
@@ -30,7 +44,7 @@ export default async function ResourcesPage() {
                     </div>
                 </div>
             </section>
-            <section className="section-padding bg-background relative overflow-hidden border-t border-white/[0.04] section-glow">
+            <section className="section-padding bg-background relative overflow-hidden border-t border-white/4 section-glow">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
                     <h2 className="text-3xl font-bold text-white sm:text-4xl">Need custom training?</h2>
                     <p className="mt-6 text-lg font-medium text-zinc-400 max-w-2xl mx-auto">We deliver executive education and engineering workshops on-site or remotely, designed around your specific tech stack and roadmap.</p>

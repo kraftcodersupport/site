@@ -1,11 +1,35 @@
 import { notFound } from "next/navigation";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { getNicheBySlug, brand } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
+import { getServiceSchema, getBreadcrumbSchema, JsonLd, BASE_URL } from "@/lib/jsonld";
 
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const niche = getNicheBySlug(slug);
+    if (!niche) return {};
+
+    return {
+        title: `${niche.title} — KraftCoder AI Solutions`,
+        description: niche.shortDescription,
+        keywords: [niche.title, "AI solutions", "enterprise AI", brand.name],
+        alternates: { canonical: `/solutions/${slug}` },
+        openGraph: {
+            title: `${niche.title} — KraftCoder`,
+            description: niche.shortDescription,
+            url: `/solutions/${slug}`,
+            type: "website",
+        },
+    };
+}
 export default async function SolutionDetailPage({
     params,
 }: {
@@ -23,6 +47,17 @@ export default async function SolutionDetailPage({
 
     return (
         <div className="relative">
+            {/* ── SEO: Structured Data ── */}
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                ...getServiceSchema({ title: niche.title, description: niche.shortDescription, bullets: niche.deliverables }),
+            }} />
+            <JsonLd data={getBreadcrumbSchema([
+                { name: "Home", href: "/" },
+                { name: "Solutions", href: "/solutions" },
+                { name: niche.title },
+            ])} />
+
             <PageHero
                 title={niche.title}
                 subtitle={niche.shortDescription}

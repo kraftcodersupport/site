@@ -1,11 +1,26 @@
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import { PROCESS_STEPS } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 import { ShieldAlert, Compass, Settings } from "lucide-react";
 import Image from "next/image";
 import CTASection from "@/components/CTASection";
+import { getHowToSchema, JsonLd } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+  title: "How It Works — Our 4-Phase AI Delivery Process",
+  description:
+    "Discover KraftCoder's disciplined 4-phase delivery model: Discover, Design, Build, Scale. From AI curiosity to production systems in 8-12 weeks.",
+  keywords: ["AI delivery process", "AI implementation methodology", "AI project phases", "AI pilot to production"],
+  alternates: { canonical: "/how-it-works" },
+  openGraph: {
+    title: "How It Works — KraftCoder's 4-Phase AI Delivery Process",
+    description: "A disciplined delivery model that maps curiosity to high-impact production systems.",
+    url: "/how-it-works",
+    type: "website",
+  },
+};
 export default async function ProcessPage() {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -13,6 +28,9 @@ export default async function ProcessPage() {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={getHowToSchema(PROCESS_STEPS)} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <PageHero 
         title={dict.nav.howItWorks} 

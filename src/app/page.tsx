@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import {
     ArrowRight,
     ShieldCheck,
@@ -17,6 +18,7 @@ import {
     WHY_CHOOSE_US,
     PROCESS_STEPS,
     brand,
+    FAQS,
 } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 import {
@@ -24,6 +26,34 @@ import {
     getSanityTeamMembers,
     getSanityBlogPosts,
 } from "@/lib/sanity/client";
+import { getWebSiteSchema, JsonLd } from "@/lib/jsonld";
+import FAQSchema from "@/components/FAQSchema";
+
+export const metadata: Metadata = {
+    title: {
+        absolute: "KraftCoder — Enterprise AI Consulting & Strategy",
+    },
+    description:
+        "KraftCoder helps organizations turn AI into measurable business outcomes. Expert AI consulting, strategy, agent development, RAG systems, and governed delivery models for startups and enterprise.",
+    keywords: [
+        "AI consulting",
+        "AI strategy",
+        "enterprise AI solutions",
+        "AI agents",
+        "AI automation",
+        "RAG systems",
+        "chatbot development",
+        "KraftCoder",
+        "AI implementation partner",
+    ],
+    alternates: { canonical: "/" },
+    openGraph: {
+        title: "KraftCoder — Enterprise AI Consulting & Strategy",
+        description: "Helping organizations turn AI into measurable business outcomes.",
+        url: "/",
+        type: "website",
+    },
+};
 
 export default async function HomePage() {
     const cookieStore = await cookies();
@@ -36,6 +66,10 @@ export default async function HomePage() {
 
     return (
         <div className="relative -mt-16 bg-zinc-950">
+            {/* ── SEO: Structured Data ── */}
+            <JsonLd data={getWebSiteSchema()} />
+            <FAQSchema faqs={FAQS} />
+
             {/* ════════════════════════════════════════════
           HERO SECTION (DARK & HEAVILY ANIMATED)
       ════════════════════════════════════════════ */}

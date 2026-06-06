@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "The legal framework governing consultations, specifications, and code delivery by KraftCoder.",
+  alternates: { canonical: "/terms" },
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
 export default function TermsPage() {
   return (
     <div className="relative">

@@ -1,9 +1,33 @@
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import { SERVICES } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 import CTASection from "@/components/CTASection";
+import { getServiceListSchema, JsonLd } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+  title: "AI Consulting Services — Strategy, Agents, Automation & RAG",
+  description:
+    "End-to-end AI capabilities: consulting, strategy, agent development, automation, RAG systems, chatbots, SaaS development, and cloud infrastructure.",
+  keywords: [
+    "AI consulting services",
+    "AI strategy services",
+    "AI agent development",
+    "AI automation services",
+    "RAG systems",
+    "chatbot development services",
+    "enterprise AI services",
+    "SaaS development",
+  ],
+  alternates: { canonical: "/services" },
+  openGraph: {
+    title: "AI Consulting Services — Strategy, Agents, Automation & RAG",
+    description: "End-to-end AI capabilities designed for organizations that need more than just a chatbot.",
+    url: "/services",
+    type: "website",
+  },
+};
 export default async function ServicesPage() {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -11,6 +35,9 @@ export default async function ServicesPage() {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={getServiceListSchema(SERVICES)} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <PageHero
         title={dict.nav.services}

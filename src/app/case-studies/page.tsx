@@ -1,11 +1,26 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import { ArrowRight, Sparkles } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { CASE_STUDIES } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 import CTASection from "@/components/CTASection";
+import { getItemListSchema, JsonLd } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+    title: "AI Case Studies — Measurable ROI from Enterprise Implementations",
+    description:
+        "Real-world AI implementation case studies showing 52% faster onboarding, 71% faster policy lookup, 18 hours saved weekly, and 34% higher analyst throughput.",
+    keywords: ["AI case studies", "AI ROI", "enterprise AI results", "AI implementation examples"],
+    alternates: { canonical: "/case-studies" },
+    openGraph: {
+        title: "AI Case Studies — Measurable ROI from Enterprise Implementations",
+        description: "Pilots that scaled. High-impact enterprise AI implementations that delivered measurable ROI.",
+        url: "/case-studies",
+        type: "website",
+    },
+};
 export default async function CaseStudiesPage() {
     const cookieStore = await cookies();
     const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -13,6 +28,12 @@ export default async function CaseStudiesPage() {
 
     return (
         <div className="relative">
+            {/* ── SEO: Structured Data ── */}
+            <JsonLd data={getItemListSchema("KraftCoder AI Case Studies", CASE_STUDIES.map(cs => ({
+                name: cs.title,
+                description: cs.summary,
+            })))} />
+
             <PageHero 
                 title={dict.nav.caseStudies} 
                 subtitle="Pilots that scaled. High-impact enterprise AI implementations that delivered measurable ROI and improved operational throughput." 

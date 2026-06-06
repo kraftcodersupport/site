@@ -1,10 +1,25 @@
 import { cookies } from "next/headers";
-import { Globe, ArrowRight } from "lucide-react";
+import type { Metadata } from "next";
+import { Globe, ArrowRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import { getDictionary } from "@/lib/dictionaries";
 import { getSanityTeamMembers } from "@/lib/sanity/client";
+import { getItemListSchema, JsonLd, BASE_URL } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+  title: "Our Team — AI Architects, Engineers & Strategists",
+  description:
+    "Meet the KraftCoder team — a multidisciplinary collective of AI architects, engineers, and strategists obsessed with AI delivery discipline.",
+  keywords: ["KraftCoder team", "AI architects", "AI engineers", "AI strategists", "AI consultants"],
+  alternates: { canonical: "/team" },
+  openGraph: {
+    title: "Our Team — AI Architects, Engineers & Strategists",
+    description: "A multidisciplinary collective of architects, engineers, and strategists obsessed with AI delivery discipline.",
+    url: "/team",
+    type: "website",
+  },
+};
 export default async function TeamPage() {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -13,6 +28,13 @@ export default async function TeamPage() {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={getItemListSchema("KraftCoder Team", teamMembers.map(m => ({
+        name: m.name,
+        description: m.role,
+        ...(m.portfolioUrl && m.portfolioUrl !== "#" && { url: m.portfolioUrl }),
+      })))} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <PageHero
         title={dict.nav.team}
@@ -32,7 +54,7 @@ export default async function TeamPage() {
             </h2>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member, index) => {
               const initials = (member.name as string)
                 .split(" ")
@@ -41,32 +63,29 @@ export default async function TeamPage() {
               return (
                 <div
                   key={member.name}
-                  className="group card-light rounded-3xl p-8 text-center flex flex-col justify-between min-h-[380px] border border-zinc-200/80 bg-white hover:border-primary/30 transition-all hover:shadow-[0_12px_30px_rgba(0,0,0,0.04)]"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  className="relative pt-12 reveal-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div>
-                    {/* Redesigned typographic avatar */}
-                    <div className="relative mb-6 aspect-square max-w-[120px] mx-auto overflow-hidden rounded-full bg-linear-to-br from-indigo-50 to-indigo-100 border border-indigo-200 flex items-center justify-center shadow-sm group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-300">
-                      <span className="text-3xl font-black tracking-wider text-indigo-650 font-display">
-                        {initials}
-                      </span>
+                  <div className={`group flex flex-col items-center text-center rounded-2xl p-6 pt-14 transition-all duration-300 hover:shadow-md border border-zinc-200 bg-background`}>
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 aspect-square w-32 overflow-hidden rounded-full bg-white border-4 border-white shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-center justify-center z-10">
+                      {member?.imageUrl ? (
+                        <img src={member.imageUrl} alt={member.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <span className="text-2xl font-black tracking-wider text-zinc-400 font-display">
+                          {initials}
+                        </span>
+                      )}
                     </div>
-                    <h3 className="text-xl font-bold text-zinc-900">{member.name}</h3>
-                    <p className="mt-1.5 text-[10px] font-bold uppercase tracking-widest text-primary">{member.role}</p>
-                    <p className="mt-4 text-sm font-semibold leading-relaxed text-zinc-600 line-clamp-4">{member.bio}</p>
-                  </div>
-                  <div className="mt-6 flex justify-center gap-3">
-                    {Object?.entries(member?.socials).map(([platform, link]) => (
-                      <a
-                        key={platform}
-                        href={link as string}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-550 transition-all hover:bg-primary/5 hover:text-primary hover:border-primary/30 shadow-sm"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Globe className="h-4 w-4" />
-                      </a>
-                    ))}
+                    <h3 className="text-base font-bold text-foreground">{member.name}</h3>
+                    <p className="text-[13px] font-medium text-zinc-500 mt-1 mb-2">{member.role}</p>
+
+                    {member?.portfolioUrl && (
+                      <div className="mt-2">
+                        <a href={member.portfolioUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-400 hover:text-primary transition-colors">
+                          View Portfolio <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               );

@@ -1,10 +1,25 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import { ArrowRight, Globe, Send, MessageSquare, MapPin } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { brand } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
+import { JsonLd, BASE_URL } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+    title: "Contact KraftCoder — Book an AI Strategy Session",
+    description:
+        "Connect with our AI strategy team to discuss your AI objectives, governance requirements, and roadmap timing. Book a 30-minute strategy call.",
+    keywords: ["contact KraftCoder", "AI strategy session", "AI consulting contact", "book AI consultation"],
+    alternates: { canonical: "/contact" },
+    openGraph: {
+        title: "Contact KraftCoder — Book an AI Strategy Session",
+        description: "Connect with our strategy team to discuss your AI objectives and roadmap timing.",
+        url: "/contact",
+        type: "website",
+    },
+};
 export default async function ContactPage() {
     const cookieStore = await cookies();
     const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -12,6 +27,26 @@ export default async function ContactPage() {
 
     return (
         <div className="relative">
+            {/* ── SEO: Structured Data ── */}
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "ContactPage",
+                name: "Contact KraftCoder",
+                description: "Connect with our AI strategy team to discuss your AI objectives.",
+                url: `${BASE_URL}/contact`,
+                mainEntity: {
+                    "@type": "Organization",
+                    name: "KraftCoder",
+                    email: brand.email,
+                    contactPoint: {
+                        "@type": "ContactPoint",
+                        email: brand.email,
+                        contactType: "sales",
+                        availableLanguage: ["English"],
+                    },
+                },
+            }} />
+
             <PageHero
                 title={dict.nav.contact}
                 subtitle="Connect with our strategy team to discuss your AI objectives, governance requirements, and roadmap timing."

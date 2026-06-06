@@ -1,11 +1,26 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import { ArrowRight, Sparkles } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { NICHES } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
 import CTASection from "@/components/CTASection";
+import { getItemListSchema, JsonLd } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+    title: "AI Solutions — Enterprise, RAG, Chatbot, SaaS & Cloud",
+    description:
+        "Specialized AI solutions for enterprise delivery: consulting & strategy, agent development, automation, RAG systems, chatbots, SaaS development, and cloud infrastructure.",
+    keywords: ["AI solutions", "enterprise AI", "RAG solutions", "AI chatbot", "SaaS AI", "cloud AI"],
+    alternates: { canonical: "/solutions" },
+    openGraph: {
+        title: "AI Solutions — Enterprise, RAG, Chatbot, SaaS & Cloud",
+        description: "Specialized AI paradigms for enterprise and startup delivery.",
+        url: "/solutions",
+        type: "website",
+    },
+};
 export default async function SolutionsPage() {
     const cookieStore = await cookies();
     const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -13,6 +28,13 @@ export default async function SolutionsPage() {
 
     return (
         <div className="relative">
+            {/* ── SEO: Structured Data ── */}
+            <JsonLd data={getItemListSchema("KraftCoder AI Solutions", NICHES.map(n => ({
+                name: n.title,
+                description: n.shortDescription,
+                url: `/solutions/${n.slug}`,
+            })))} />
+
             <PageHero
                 title={dict.nav.solutions}
                 subtitle="Specialized AI paradigms for enterprise and startup delivery. We provide the architecture, safety, and implementation layer."

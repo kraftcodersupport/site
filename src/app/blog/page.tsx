@@ -1,9 +1,24 @@
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import BlogList from "@/components/BlogList";
 import { getDictionary } from "@/lib/dictionaries";
 import { getSanityBlogPosts } from "@/lib/sanity/client";
+import { JsonLd, BASE_URL } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+  title: "AI Insights & Blog — Strategy, Engineering & Leadership",
+  description:
+    "Expert insights on AI strategy, delivery models, RAG systems, governance, and the technical discipline required to ship production AI systems.",
+  keywords: ["AI blog", "AI insights", "AI strategy articles", "enterprise AI blog", "RAG best practices", "AI governance"],
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "AI Insights & Blog — KraftCoder",
+    description: "Expert insights on AI strategy, delivery models, and technical discipline.",
+    url: "/blog",
+    type: "website",
+  },
+};
 export default async function BlogPage() {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -12,6 +27,20 @@ export default async function BlogPage() {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: "KraftCoder AI Blog",
+        description: "Expert insights on AI strategy, delivery models, and technical discipline.",
+        url: `${BASE_URL}/blog`,
+        publisher: {
+          "@type": "Organization",
+          name: "KraftCoder",
+          url: BASE_URL,
+        },
+      }} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <PageHero 
         title={dict.nav.blog} 

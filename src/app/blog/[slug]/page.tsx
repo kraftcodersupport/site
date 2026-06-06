@@ -1,12 +1,33 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, Sparkles } from "lucide-react";
 import { getSanityBlogPostBySlug, getSanityBlogPosts } from "@/lib/sanity/client";
+import { getBlogPostingSchema, getBreadcrumbSchema, JsonLd } from "@/lib/jsonld";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getSanityBlogPostBySlug(slug);
+  if (!post) return {};
+
+  return {
+    title: post.title,
+    description: post.description || `Read about ${post.title} on the KraftCoder AI blog.`,
+    keywords: [post.category, "AI blog", "KraftCoder", post.title].filter(Boolean),
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      title: post.title,
+      description: post.description || `Read about ${post.title} on the KraftCoder AI blog.`,
+      url: `/blog/${slug}`,
+      type: "article",
+      ...(post.published && { publishedTime: post.published }),
+    },
+  };
+}
 const DEFAULT_CONTENT = `
 ## Technical Strategy for Autonomous Workloads
 
@@ -112,6 +133,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={getBlogPostingSchema({ ...post, slug })} />
+      <JsonLd data={getBreadcrumbSchema([
+        { name: "Home", href: "/" },
+        { name: "Blog", href: "/blog" },
+        { name: post.title },
+      ])} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <section className="relative overflow-hidden border-b border-zinc-900 bg-background py-28 lg:py-36">
         <div className="absolute inset-0 surface-grid opacity-15" />

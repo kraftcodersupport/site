@@ -1,10 +1,25 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import type { Metadata } from "next";
 import { ArrowRight, ShieldCheck, Sparkles, Rocket, Compass, Settings } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { getDictionary } from "@/lib/dictionaries";
 import CTASection from "@/components/CTASection";
+import { JsonLd, BASE_URL } from "@/lib/jsonld";
 
+export const metadata: Metadata = {
+  title: "About KraftCoder — AI Strategy & Delivery Experts",
+  description:
+    "A high-performance AI consultancy at the intersection of executive strategy and technical execution. Security-first, KPI-led, engineering-excellent.",
+  keywords: ["about KraftCoder", "AI consultancy", "AI delivery", "AI strategy team", "enterprise AI partner"],
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About KraftCoder — AI Strategy & Delivery Experts",
+    description: "A high-performance AI consultancy at the intersection of executive strategy and technical execution.",
+    url: "/about",
+    type: "website",
+  },
+};
 export default async function AboutPage() {
   const cookieStore = await cookies();
   const locale = cookieStore.get("NEXT_LOCALE")?.value || "en";
@@ -12,6 +27,20 @@ export default async function AboutPage() {
 
   return (
     <div className="relative">
+      {/* ── SEO: Structured Data ── */}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "About KraftCoder",
+        description: "A high-performance AI consultancy at the intersection of executive strategy and technical execution.",
+        url: `${BASE_URL}/about`,
+        mainEntity: {
+          "@type": "Organization",
+          name: "KraftCoder",
+          url: BASE_URL,
+        },
+      }} />
+
       {/* ── Page Hero (Dark bg-background) ── */}
       <PageHero
         title={dict.nav.about}
