@@ -9,7 +9,8 @@ import {
   MapPin,
   Mail,
   Globe,
-  Map
+  Map,
+  Phone
 } from "lucide-react";
 import Image from "next/image";
 import { brand, NAV_ITEMS } from "@/lib/niches";
@@ -63,14 +64,17 @@ export default function Footer({ locale, dict }: { locale: string; dict: any }) 
               </p>
 
               <div className="mt-8 flex items-center gap-3">
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm">
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm">
-                  <Send className="h-4 w-4" />
-                </a>
-                <a href="#" className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm">
-                  <AtSign className="h-4 w-4" />
+                {brand.linkedin && (
+                  <a href={brand.linkedin} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect width="4" height="12" x="2" y="9" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  </a>
+                )}
+                <a href={`mailto:${brand.email}`} className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm" aria-label="Email">
+                  <Mail className="h-4 w-4" />
                 </a>
               </div>
             </div>
@@ -106,14 +110,26 @@ export default function Footer({ locale, dict }: { locale: string; dict: any }) 
                   <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
                     <Mail className="h-3.5 w-3.5 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-zinc-400 break-all mt-1">{brand.email}</span>
+                  <a href={`mailto:${brand.email}`} className="text-sm font-medium text-zinc-400 hover:text-primary-light transition-colors break-all mt-1">
+                    {brand.email}
+                  </a>
                 </li>
+                {brand.phones && brand.phones.map((phone, i) => (
+                  <li key={phone} className="flex items-start gap-3 group">
+                    <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
+                      <Phone className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <a href={`tel:${brand.phonesRaw[i]}`} className="text-sm font-medium text-zinc-400 hover:text-primary-light transition-colors mt-1">
+                      {phone}
+                    </a>
+                  </li>
+                ))}
                 <li className="flex items-start gap-3 group">
                   <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 group-hover:bg-primary/20 group-hover:border-primary/30 transition-colors">
                     <MapPin className="h-3.5 w-3.5 text-primary" />
                   </div>
                   <span className="text-sm font-medium text-zinc-400 leading-relaxed mt-1">
-                    Innovation Hub, Tashkent, Uzbekistan
+                    {brand.address}
                   </span>
                 </li>
               </ul>

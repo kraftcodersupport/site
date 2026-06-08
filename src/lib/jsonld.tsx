@@ -16,11 +16,12 @@ export function getOrganizationSchema() {
     foundingDate: "2024",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Tashkent",
-      addressCountry: "UZ",
+      addressLocality: brand.addressLocality,
+      addressCountry: brand.addressCountry,
     },
     contactPoint: {
       "@type": "ContactPoint",
+      telephone: brand.phones[0],
       email: brand.email,
       contactType: "sales",
       availableLanguage: ["English"],
@@ -70,12 +71,13 @@ export function getProfessionalServiceSchema() {
     priceRange: "$$$$",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Tashkent",
-      addressCountry: "UZ",
+      addressLocality: brand.addressLocality,
+      addressCountry: brand.addressCountry,
     },
+    telephone: brand.phones.join(", "),
     areaServed: {
       "@type": "GeoCircle",
-      geoMidpoint: { "@type": "GeoCoordinates", latitude: 41.2995, longitude: 69.2401 },
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: 23.0225, longitude: 72.5714 },
       geoRadius: "50000",
     },
     knowsAbout: [

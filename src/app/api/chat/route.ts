@@ -20,6 +20,8 @@ If a question is NOT about KraftCoder, politely decline: "I'm sorry, I can only 
 Here is the authentic context of KraftCoder:
 - Brand Name: ${brand.name}
 - Email: ${brand.email}
+- Phones: ${brand.phones.join(", ")}
+- Address: ${brand.address}
 - Services:
 ${SERVICES.map(s => `  * ${s.title}: ${s.description}. Key outcomes: ${s.bullets.join(", ")}`).join("\n")}
 - Team Members:

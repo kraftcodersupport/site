@@ -127,7 +127,13 @@ export interface WhyItem {
 export const brand = {
   name: "KraftCoder",
   tagline: "Helping Organizations Turn AI Into Measurable Business Outcomes.",
-  email: "hello@kraftcoder.com",
+  email: "kraftcoder.support@gmail.com",
+  phones: ["+91 94087 82333", "+91 96623 34748"],
+  phonesRaw: ["+919408782333", "+919662334748"],
+  address: "Near Vishal, Ahemadabad",
+  addressLocality: "Ahemadabad",
+  addressCountry: "IN",
+  linkedin: "https://www.linkedin.com/company/kraftcoder/about/",
   partners: ["Vercel", "OpenAI", "Anthropic", "Google", "AWS", "Microsoft"],
 };
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import type { Metadata } from "next";
-import { ArrowRight, Globe, Send, MessageSquare, MapPin } from "lucide-react";
+import { ArrowRight, Globe, Send, MessageSquare, MapPin, Phone } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { brand } from "@/lib/niches";
 import { getDictionary } from "@/lib/dictionaries";
@@ -79,12 +79,18 @@ export default async function ContactPage() {
                                 </div>
                                 <div className="flex items-start gap-5">
                                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary">
-                                        <MessageSquare className="h-5 w-5" />
+                                        <Phone className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <h3 className="text-base font-bold text-zinc-900">Direct Chat</h3>
-                                        <p className="mt-1 text-sm font-semibold text-zinc-500">Available Mon-Fri, 9am - 6pm EST.</p>
-                                        <p className="mt-2 block font-bold text-zinc-800">+1 (555) 123-4567</p>
+                                        <h3 className="text-base font-bold text-zinc-900">Direct Contact</h3>
+                                        <p className="mt-1 text-sm font-semibold text-zinc-500">Available Mon-Sat, 9am - 7pm IST.</p>
+                                        <div className="mt-2 space-y-1">
+                                            {brand.phones && brand.phones.map((phone, i) => (
+                                                <a key={phone} href={`tel:${brand.phonesRaw[i]}`} className="block font-bold text-zinc-800 hover:text-primary hover:underline transition-colors">
+                                                    {phone}
+                                                </a>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-5">
@@ -93,7 +99,7 @@ export default async function ContactPage() {
                                     </div>
                                     <div>
                                         <h3 className="text-base font-bold text-zinc-900">Global Presence</h3>
-                                        <p className="mt-1 text-sm font-semibold text-zinc-500">HQ in New York City with remote-first hubs worldwide.</p>
+                                        <p className="mt-1 text-sm font-semibold text-zinc-500">HQ: {brand.address}</p>
                                     </div>
                                 </div>
                             </div>
