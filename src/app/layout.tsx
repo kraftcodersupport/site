@@ -53,9 +53,26 @@ export const metadata: Metadata = {
         siteName: "KraftCoder",
         locale: "en_US",
         type: "website",
+        images: [
+            {
+                url: "/opengraph-image.png",
+                width: 1200,
+                height: 630,
+                alt: "KraftCoder — AI Consulting Agency | Enterprise AI Strategy, Solutions & Development",
+            },
+        ],
     },
     twitter: {
         card: "summary_large_image",
+        images: ["/opengraph-image.png"],
+    },
+    icons: {
+        icon: [
+            { url: "/favicon.ico", sizes: "any" },
+            { url: "/icon.png", type: "image/png", sizes: "576x576" },
+        ],
+        shortcut: "/favicon.ico",
+        apple: "/apple-icon.png",
     },
     alternates: {
         canonical: "/",
