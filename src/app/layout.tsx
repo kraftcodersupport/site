@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Chatbot from "@/components/Chatbot";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import { getOrganizationSchema, getProfessionalServiceSchema, JsonLd } from "@/lib/jsonld";
+import Script from "next/script";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
@@ -17,13 +18,14 @@ export const metadata: Metadata = {
     metadataBase: new URL(BASE_URL),
     title: {
         template: "%s | KraftCoder",
-        default: "KraftCoder — Enterprise AI Consulting & Strategy",
+        default: "KraftCoder — AI Consulting Agency | Enterprise AI Strategy, Solutions & Development",
     },
     description:
-        "KraftCoder helps organizations turn AI into measurable business outcomes. Enterprise AI consulting, strategy, agent development, RAG systems, and governed delivery models.",
+        "Transform your business with KraftCoder's AI consulting services. We deliver enterprise AI strategy, custom AI solutions, agent development, and RAG systems with governed delivery models.",
     keywords: [
         "AI consulting",
         "AI strategy",
+        "AI solutions",
         "enterprise AI",
         "AI agents",
         "AI automation",
@@ -73,6 +75,21 @@ export default async function RootLayout({
     return (
         <html lang={locale} dir={isRtl ? "rtl" : "ltr"} className={`${jakarta.variable} ${sora.variable}`}>
             <body className="antialiased">
+                {/* Google Analytics Script */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-ZNBKX2G9VC"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', 'G-ZNBKX2G9VC');
+                    `}
+                </Script>
+
                 {/* Global Organization & ProfessionalService JSON-LD */}
                 <JsonLd data={getOrganizationSchema()} />
                 <JsonLd data={getProfessionalServiceSchema()} />
