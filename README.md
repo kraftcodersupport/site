@@ -8,6 +8,7 @@ Premium Next.js website for an AI consulting studio focused on strategy, agent d
 npm run dev
 ```
 
+
 Open `http://localhost:3000` in your browser.
 
 If you are starting from the workspace root, first `cd /home/raish/raish/executive-ai-consultancy`.
