@@ -8,8 +8,13 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 import { NICHES } from "../src/lib/niches";
 import { getSanityBlogPosts } from "../src/lib/sanity/client";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://kraft-coder.vercel.app";
+let BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kraft-coder.vercel.app";
+
+// Fallback to production URL if local development URL is configured,
+// since sitemap/robots.txt should always contain the production domain.
+if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("127.0.0.1")) {
+  BASE_URL = "https://kraft-coder.vercel.app";
+}
 
 async function generateSitemap() {
   console.log("Generating sitemap...");
@@ -44,10 +49,10 @@ async function generateSitemap() {
         typeof post.slug === "string"
           ? post.slug
           : post.slug?.current ||
-            post.title
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")
-              .replace(/(^-|-$)/g, "");
+          post.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
       return {
         url: `${BASE_URL}/blog/${slug}`,
         lastModified: post.published ? new Date(post.published) : new Date(),
