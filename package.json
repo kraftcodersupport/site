@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "postbuild": "npx tsx scripts/generate-static-seo.ts",
     "start": "next start",
     "lint": "eslint"
   },

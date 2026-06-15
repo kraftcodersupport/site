@@ -7,15 +7,14 @@ import Chatbot from "@/components/Chatbot";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import { getOrganizationSchema, getProfessionalServiceSchema, JsonLd } from "@/lib/jsonld";
 import Script from "next/script";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 const sora = Sora({ subsets: ["latin"], variable: "--font-sora" });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kraft-coder.vercel.app";
-
 export const metadata: Metadata = {
-    metadataBase: new URL(BASE_URL),
+    metadataBase: new URL(SITE_URL),
     title: {
         template: "%s | KraftCoder",
         default: "KraftCoder — AI Consulting Agency | Enterprise AI Strategy, Solutions & Development",
