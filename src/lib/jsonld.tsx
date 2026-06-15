@@ -1,7 +1,7 @@
 import { brand, FAQS } from "@/lib/niches";
+import { SITE_URL } from "@/lib/site";
 
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://kraft-coder.vercel.app";
+export const BASE_URL = SITE_URL;
 
 // ── Organization ──────────────────────────────────────────────
 export function getOrganizationSchema() {
@@ -16,7 +16,9 @@ export function getOrganizationSchema() {
     foundingDate: "2024",
     address: {
       "@type": "PostalAddress",
+      streetAddress: brand.address,
       addressLocality: brand.addressLocality,
+      addressRegion: brand.addressRegion,
       addressCountry: brand.addressCountry,
     },
     contactPoint: {
@@ -71,7 +73,9 @@ export function getProfessionalServiceSchema() {
     priceRange: "$$$$",
     address: {
       "@type": "PostalAddress",
+      streetAddress: brand.address,
       addressLocality: brand.addressLocality,
+      addressRegion: brand.addressRegion,
       addressCountry: brand.addressCountry,
     },
     telephone: brand.phones.join(", "),
