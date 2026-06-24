@@ -90,7 +90,7 @@ Ensure:
         model: modelName,
         generationConfig: {
           responseMimeType: "application/json",
-          maxOutputTokens: 4000,
+          maxOutputTokens: 8192,
         },
       });
       result = await model.generateContent(systemPrompt);
@@ -102,7 +102,7 @@ Ensure:
         model: modelName,
         generationConfig: {
           responseMimeType: "application/json",
-          maxOutputTokens: 4000,
+          maxOutputTokens: 8192,
         },
       });
       result = await fallbackModel.generateContent(systemPrompt);
@@ -118,7 +118,13 @@ Ensure:
       cleanText = cleanText.trim();
     }
 
-    const postsData = JSON.parse(cleanText);
+    let postsData;
+    try {
+      postsData = JSON.parse(cleanText);
+    } catch (parseError: any) {
+      console.error("JSON parse failed. Response length:", cleanText.length, "Last 200 chars:", cleanText.slice(-200));
+      throw new Error(`JSON parse error: ${parseError.message}. Response may have been truncated.`);
+    }
 
     if (!Array.isArray(postsData) || postsData.length === 0) {
       throw new Error("Invalid response format from Gemini model. Expected an array.");
